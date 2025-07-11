@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { User, Mail, MapPin, FileText, Camera, Save, ArrowLeft } from 'lucide-react';
+import { User, Mail, MapPin, FileText, Camera, Save, ArrowLeft, Upload } from 'lucide-react';
 import { RootState, AppDispatch } from '../store/store';
 import { updateProfile } from '../store/slices/authSlice';
 import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { getInitials } from '../utils/helpers';
 import api from '../utils/api';
@@ -167,14 +166,14 @@ const EditProfilePage: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 font-poppins py-8">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -184,17 +183,19 @@ const EditProfilePage: React.FC = () => {
         >
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-4"
+            className="flex items-center text-slate-400 hover:text-white mb-6 transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Back
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Edit Profile
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Update your profile information and preferences
-          </p>
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Edit <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Profile</span>
+            </h1>
+            <p className="text-xl text-slate-400">
+              Update your profile information and preferences
+            </p>
+          </div>
         </motion.div>
 
         {/* Form */}
@@ -202,153 +203,154 @@ const EditProfilePage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6"
+          className="bg-slate-800/50 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50"
         >
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Avatar Upload */}
-            <div className="flex items-center space-x-6">
-              <div className="relative">
+            <div className="text-center">
+              <div className="relative inline-block">
                 {avatarPreview ? (
                   <img
                     src={avatarPreview}
                     alt="Avatar preview"
-                    className="w-20 h-20 rounded-full object-cover"
+                    className="w-32 h-32 rounded-full object-cover ring-4 ring-blue-500/30 shadow-2xl"
                   />
                 ) : (
-                  <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-32 h-32 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-4xl font-bold ring-4 ring-blue-500/30 shadow-2xl">
                     {getInitials(formData.name || 'User')}
                   </div>
                 )}
                 {isUploading && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
                     <LoadingSpinner size="sm" />
                   </div>
                 )}
-              </div>
-              <div>
-                <label className="block">
-                  <span className="sr-only">Choose avatar</span>
+                <label className="absolute bottom-2 right-2 w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg">
+                  <Camera className="w-5 h-5 text-white" />
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleAvatarChange}
-                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300"
+                    className="hidden"
                   />
                 </label>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  PNG, JPG up to 5MB
-                </p>
               </div>
+              <p className="text-sm text-slate-400 mt-4">
+                PNG, JPG up to 5MB
+              </p>
             </div>
 
             {/* Basic Information */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+                <User className="w-6 h-6 mr-3 text-blue-400" />
                 Basic Information
               </h3>
               
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <Input
+                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <input
                   name="name"
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Full name"
-                  error={errors.name}
-                  className="pl-10"
+                  className={`w-full pl-12 pr-4 py-4 bg-slate-700/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                    errors.name ? 'border-red-500' : 'border-slate-600'
+                  }`}
                 />
+                {errors.name && (
+                  <p className="text-sm text-red-400 mt-2">{errors.name}</p>
+                )}
               </div>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <Input
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <input
                   name="email"
                   type="email"
                   value={user.email}
                   disabled
-                  className="pl-10 bg-gray-50 dark:bg-gray-700"
+                  className="w-full pl-12 pr-4 py-4 bg-slate-600/50 border border-slate-600 rounded-xl text-slate-400 cursor-not-allowed"
                 />
               </div>
 
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <Input
+                <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <input
                   name="location"
                   type="text"
                   value={formData.location}
                   onChange={handleInputChange}
                   placeholder="Location (e.g., New York, NY)"
-                  error={errors.location}
-                  className="pl-10"
+                  className={`w-full pl-12 pr-4 py-4 bg-slate-700/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                    errors.location ? 'border-red-500' : 'border-slate-600'
+                  }`}
                 />
+                {errors.location && (
+                  <p className="text-sm text-red-400 mt-2">{errors.location}</p>
+                )}
               </div>
 
               <div className="relative">
-                <FileText className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+                <FileText className="absolute left-4 top-4 text-slate-400 w-5 h-5" />
                 <textarea
                   name="bio"
                   value={formData.bio}
                   onChange={handleInputChange}
                   placeholder="Tell others about yourself..."
                   rows={4}
-                  className={`w-full pl-10 pr-4 py-2 border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.bio
-                      ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20'
-                      : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700'
-                  } text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400`}
+                  className={`w-full pl-12 pr-4 py-4 bg-slate-700/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none ${
+                    errors.bio ? 'border-red-500' : 'border-slate-600'
+                  }`}
                 />
                 {errors.bio && (
-                  <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.bio}</p>
+                  <p className="text-sm text-red-400 mt-2">{errors.bio}</p>
                 )}
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-400 mt-2">
                   {formData.bio.length}/500 characters
                 </p>
               </div>
             </div>
 
             {/* Preferences */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-white mb-6">
                 Preferences
               </h3>
               
-              <div className="space-y-3">
-                <label className="flex items-center">
+              <div className="space-y-4">
+                <label className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl border border-slate-600/50 hover:bg-slate-700/50 transition-colors cursor-pointer">
+                  <span className="text-white font-medium">Email notifications</span>
                   <input
                     type="checkbox"
                     name="preferences.emailNotifications"
                     checked={formData.preferences.emailNotifications}
                     onChange={handleInputChange}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="w-5 h-5 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
                   />
-                  <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                    Email notifications
-                  </span>
                 </label>
 
-                <label className="flex items-center">
+                <label className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl border border-slate-600/50 hover:bg-slate-700/50 transition-colors cursor-pointer">
+                  <span className="text-white font-medium">Push notifications</span>
                   <input
                     type="checkbox"
                     name="preferences.pushNotifications"
                     checked={formData.preferences.pushNotifications}
                     onChange={handleInputChange}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="w-5 h-5 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
                   />
-                  <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                    Push notifications
-                  </span>
                 </label>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-white font-medium mb-3">
                     Language
                   </label>
                   <select
                     name="preferences.language"
                     value={formData.preferences.language}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   >
                     <option value="en">English</option>
                     <option value="es">Spanish</option>
@@ -362,17 +364,19 @@ const EditProfilePage: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end space-x-3">
+            <div className="flex justify-end space-x-4 pt-6 border-t border-slate-700/50">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => navigate(-1)}
+                className="border-slate-600 text-slate-300 hover:bg-slate-700"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 isLoading={isLoading || isUploading}
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
               >
                 <Save className="w-4 h-4 mr-2" />
                 Save Changes

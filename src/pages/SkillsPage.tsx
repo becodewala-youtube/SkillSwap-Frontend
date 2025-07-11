@@ -315,7 +315,7 @@ const SkillsPage: React.FC = () => {
                         {skill.user.location && (
                           <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm">
                             <MapPin className="w-3 h-3 mr-1" />
-                            {skill.userId.location}
+                            {skill.user.location}
                           </div>
                         )}
                       </div>

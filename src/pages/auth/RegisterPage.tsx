@@ -6,7 +6,6 @@ import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import { RootState, AppDispatch } from '../../store/store';
 import { register, clearError } from '../../store/slices/authSlice';
 import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
 import { validateEmail, validatePassword } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 
@@ -100,30 +99,34 @@ const RegisterPage: React.FC = () => {
     }
   };
 
+  const handleGoogleRegister = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`;
+  };
+
   const passwordValidation = validatePassword(formData.password);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="max-w-md w-full space-y-8"
       >
-        <div>
-          <Link to="/" className="flex justify-center">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">SS</span>
+        <div className="text-center">
+          <Link to="/" className="flex justify-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
+              <span className="text-white font-bold text-2xl">SS</span>
             </div>
           </Link>
-          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-4xl font-bold text-white mb-4">
             Create your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-slate-400">
             Already have an account?{' '}
             <Link
               to="/login"
-              className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+              className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
             >
               Sign in here
             </Link>
@@ -139,69 +142,81 @@ const RegisterPage: React.FC = () => {
         >
           <div className="space-y-4">
             <div className="relative">
-              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
+              <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <input
                 name="name"
                 type="text"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Full name"
-                error={errors.name}
-                className="pl-10"
+                className={`w-full pl-12 pr-4 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                  errors.name ? 'border-red-500' : 'border-slate-600'
+                }`}
               />
+              {errors.name && (
+                <p className="text-sm text-red-400 mt-2">{errors.name}</p>
+              )}
             </div>
 
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
+              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <input
                 name="email"
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email address"
-                error={errors.email}
-                className="pl-10"
+                className={`w-full pl-12 pr-4 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                  errors.email ? 'border-red-500' : 'border-slate-600'
+                }`}
               />
+              {errors.email && (
+                <p className="text-sm text-red-400 mt-2">{errors.email}</p>
+              )}
             </div>
 
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <input
                 name="password"
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                error={errors.password}
-                className="pl-10 pr-10"
+                className={`w-full pl-12 pr-12 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                  errors.password ? 'border-red-500' : 'border-slate-600'
+                }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
+              {errors.password && (
+                <p className="text-sm text-red-400 mt-2">{errors.password}</p>
+              )}
             </div>
 
             {/* Password Strength Indicator */}
             {formData.password && (
               <div className="space-y-2">
-                <div className="text-xs text-gray-600 dark:text-gray-400">Password requirements:</div>
+                <div className="text-xs text-slate-400">Password requirements:</div>
                 <div className="space-y-1">
-                  <div className={`text-xs flex items-center ${passwordValidation.minLength ? 'text-green-600' : 'text-gray-400'}`}>
+                  <div className={`text-xs flex items-center ${passwordValidation.minLength ? 'text-green-400' : 'text-slate-500'}`}>
                     <span className="mr-2">{passwordValidation.minLength ? '✓' : '○'}</span>
                     At least 6 characters
                   </div>
-                  <div className={`text-xs flex items-center ${passwordValidation.hasLowercase ? 'text-green-600' : 'text-gray-400'}`}>
+                  <div className={`text-xs flex items-center ${passwordValidation.hasLowercase ? 'text-green-400' : 'text-slate-500'}`}>
                     <span className="mr-2">{passwordValidation.hasLowercase ? '✓' : '○'}</span>
                     One lowercase letter
                   </div>
-                  <div className={`text-xs flex items-center ${passwordValidation.hasUppercase ? 'text-green-600' : 'text-gray-400'}`}>
+                  <div className={`text-xs flex items-center ${passwordValidation.hasUppercase ? 'text-green-400' : 'text-slate-500'}`}>
                     <span className="mr-2">{passwordValidation.hasUppercase ? '✓' : '○'}</span>
                     One uppercase letter
                   </div>
-                  <div className={`text-xs flex items-center ${passwordValidation.hasNumber ? 'text-green-600' : 'text-gray-400'}`}>
+                  <div className={`text-xs flex items-center ${passwordValidation.hasNumber ? 'text-green-400' : 'text-slate-500'}`}>
                     <span className="mr-2">{passwordValidation.hasNumber ? '✓' : '○'}</span>
                     One number
                   </div>
@@ -210,23 +225,27 @@ const RegisterPage: React.FC = () => {
             )}
 
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <input
                 name="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm password"
-                error={errors.confirmPassword}
-                className="pl-10 pr-10"
+                className={`w-full pl-12 pr-12 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                  errors.confirmPassword ? 'border-red-500' : 'border-slate-600'
+                }`}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
               >
                 {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-400 mt-2">{errors.confirmPassword}</p>
+              )}
             </div>
           </div>
 
@@ -236,15 +255,15 @@ const RegisterPage: React.FC = () => {
               name="terms"
               type="checkbox"
               required
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-600 rounded bg-slate-800"
             />
-            <label htmlFor="terms" className="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+            <label htmlFor="terms" className="ml-2 block text-sm text-slate-300">
               I agree to the{' '}
-              <Link to="/terms" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+              <Link to="/terms" className="text-blue-400 hover:text-blue-300">
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link to="/privacy" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+              <Link to="/privacy" className="text-blue-400 hover:text-blue-300">
                 Privacy Policy
               </Link>
             </label>
@@ -253,8 +272,7 @@ const RegisterPage: React.FC = () => {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="w-full"
-            size="lg"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 py-4 text-lg font-semibold"
           >
             Create account
           </Button>
@@ -262,10 +280,10 @@ const RegisterPage: React.FC = () => {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+                <div className="w-full border-t border-slate-600" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+                <span className="px-2 bg-slate-900 text-slate-400">
                   Or continue with
                 </span>
               </div>
@@ -275,11 +293,8 @@ const RegisterPage: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full"
-                onClick={() => {
-                  // TODO: Implement Google OAuth
-                  toast.info('Google OAuth coming soon!');
-                }}
+                className="w-full border-slate-600 text-slate-300 hover:bg-slate-800 py-4"
+                onClick={handleGoogleRegister}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path
