@@ -208,12 +208,12 @@ const ChatPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col font-poppins">
+    <div className="min-h-screen dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex flex-col font-poppins">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-800/50 backdrop-blur-xl border-b border-slate-700/50 p-6"
+        className="dark:bg-slate-800/50 backdrop-blur-xl border-b dark:border-slate-700/50 p-6"
       >
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-4">
@@ -241,15 +241,15 @@ const ChatPage: React.FC = () => {
               </div>
               
               <div>
-                <h2 className="font-bold text-white text-lg">
+                <h2 className="font-bold dark:text-white text-lg">
                   {otherUser.name}
                 </h2>
                 <div className="flex items-center space-x-2">
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30">
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-500 dark:text-blue-300 rounded-full text-xs font-medium border border-blue-500/30">
                     {currentRequest.senderSkillId.title}
                   </span>
                   <span className="text-slate-400">↔</span>
-                  <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-medium border border-purple-500/30">
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-500 dark:text-purple-300 rounded-full text-xs font-medium border border-purple-500/30">
                     {currentRequest.receiverSkillId.title}
                   </span>
                 </div>
@@ -327,7 +327,7 @@ const ChatPage: React.FC = () => {
                           className={`px-4 py-3 rounded-2xl backdrop-blur-sm ${
                             isOwn
                               ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                              : 'bg-slate-700/50 text-white border border-slate-600/50'
+                              : 'dark:bg-slate-700/50 dark:text-white border dark:border-slate-600/50'
                           } shadow-lg hover:shadow-xl transition-all duration-300`}
                         >
                           <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -384,7 +384,7 @@ const ChatPage: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-800/50 backdrop-blur-xl border-t border-slate-700/50 p-6"
+        className="dark:bg-slate-800/50 backdrop-blur-xl border-t dark:border-slate-700/50 p-6"
       >
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSendMessage} className="flex items-end space-x-4">
@@ -395,7 +395,7 @@ const ChatPage: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAttachmentMenu(!showAttachmentMenu)}
-                className="text-slate-400 hover:text-slate-300 hover:bg-slate-700/50"
+                className="dark:text-slate-400  hover:text-slate-300 hover:bg-slate-700/50"
               >
                 <Paperclip className="w-5 h-5" />
               </Button>
@@ -446,7 +446,7 @@ const ChatPage: React.FC = () => {
                   handleTyping();
                 }}
                 placeholder="Type a message..."
-                className="w-full px-4 py-3 pr-12 bg-slate-700/50 border border-slate-600 rounded-2xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="w-full px-4 py-3 pr-12 dark:bg-slate-700/50 border dark:border-slate-600 rounded-2xl outline-none text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 disabled={currentRequest.status !== 'accepted' && currentRequest.status !== 'completed'}
               />
               
@@ -490,9 +490,9 @@ const ChatPage: React.FC = () => {
             <Button
               type="submit"
               disabled={!message.trim() || (currentRequest.status !== 'accepted' && currentRequest.status !== 'completed')}
-              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed "
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-6 h-6" />
             </Button>
           </form>
           

@@ -48,7 +48,7 @@ const MessagesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 font-poppins">
+    <div className="min-h-screen dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 font-poppins">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
@@ -56,10 +56,10 @@ const MessagesPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Your <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Messages</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-700 dark:text-white mb-4">
+            Your <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 to-purple-600 dark:to-purple-400 bg-clip-text text-transparent">Messages</span>
           </h1>
-          <p className="text-xl text-slate-400">
+          <p className="text-xl text-slate-600 dark:text-slate-400">
             Chat with your skill exchange partners
           </p>
         </motion.div>
@@ -69,7 +69,7 @@ const MessagesPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-slate-800/50 backdrop-blur-xl rounded-2xl p-6 mb-8 border border-slate-700/50"
+          className="dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl p-6 mb-8 border border-slate-300 dark:border-slate-600/50"
         >
           <div className="flex items-center space-x-4">
             <div className="relative flex-1">
@@ -79,10 +79,10 @@ const MessagesPage: React.FC = () => {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="w-full pl-12 pr-4 py-3 dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
               />
             </div>
-            <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+            <Button variant="outline" size="sm" className="border-slate-400 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -111,7 +111,7 @@ const MessagesPage: React.FC = () => {
                     to={`/chat/${conversation.request._id}`}
                     className="block"
                   >
-                    <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:bg-slate-700/50 transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl">
+                    <div className="dark:bg-slate-800/50 backdrop-blur-xl border  dark:border-slate-700/50 rounded-2xl p-6 dark:hover:bg-slate-700/50 transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl">
                       <div className="flex items-center space-x-4">
                         {/* Avatar */}
                         <div className="relative flex-shrink-0">
@@ -137,7 +137,7 @@ const MessagesPage: React.FC = () => {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-lg font-semibold text-white truncate group-hover:text-blue-400 transition-colors">
+                            <h3 className="text-lg font-semibold dark:text-white truncate group-hover:text-blue-400 transition-colors">
                               {conversation.otherUser.name}
                             </h3>
                             <div className="flex items-center space-x-2">
@@ -152,11 +152,11 @@ const MessagesPage: React.FC = () => {
                           {/* Skills Exchange Info */}
                           <div className="mb-3">
                             <div className="flex items-center space-x-2 text-sm">
-                              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full font-medium border border-blue-500/30">
+                              <span className="px-3 py-1 bg-blue-300/20 dark:bg-blue-500/20 text-blue-500  dark:text-blue-300 rounded-full font-medium border border-blue-500/30">
                                 {conversation.request.senderSkillId.title}
                               </span>
                               <span className="text-slate-400">↔</span>
-                              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full font-medium border border-purple-500/30">
+                              <span className="px-3 py-1 bg-purple-500/20 dark:text-purple-300 text-purple-500 rounded-full font-medium border border-purple-500/30">
                                 {conversation.request.receiverSkillId.title}
                               </span>
                             </div>
@@ -168,7 +168,7 @@ const MessagesPage: React.FC = () => {
                               {conversation.lastMessage.senderId._id === user?._id ? (
                                 <span className="text-blue-400 font-medium">You: </span>
                               ) : null}
-                              {conversation.lastMessage.content}
+                              <span className=' text-slate-700 dark:text-slate-400'>{conversation.lastMessage.content}</span>
                             </p>
                           ) : (
                             <p className="text-slate-500 italic">
@@ -180,9 +180,9 @@ const MessagesPage: React.FC = () => {
                           <div className="mt-3 flex items-center justify-between">
                             <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                               conversation.request.status === 'accepted' 
-                                ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                                ? 'bg-green-500/20 text-green-500 dark:text-green-300 border border-green-500/30'
                                 : conversation.request.status === 'completed'
-                                ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                                ? 'bg-blue-500/20 text-blue-500 dark:text-blue-300 border border-blue-500/30'
                                 : 'bg-slate-500/20 text-slate-300 border border-slate-500/30'
                             }`}>
                               {conversation.request.status === 'accepted' ? 'Active Exchange' :

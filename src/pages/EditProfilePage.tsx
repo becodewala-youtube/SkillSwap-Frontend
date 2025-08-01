@@ -49,16 +49,20 @@ const EditProfilePage: React.FC = () => {
     }
   }, [user]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target;
-    
+
     if (name.startsWith('preferences.')) {
       const prefKey = name.split('.')[1];
       setFormData(prev => ({
         ...prev,
         preferences: {
           ...prev.preferences,
-          [prefKey]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+          [prefKey]: type === 'checkbox'
+            ? (e.target as HTMLInputElement).checked
+            : value,
         },
       }));
     } else {
@@ -173,7 +177,7 @@ const EditProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 font-poppins py-8">
+    <div className="min-h-screen dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 font-poppins py-8">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -189,10 +193,10 @@ const EditProfilePage: React.FC = () => {
             Back
           </button>
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Edit <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Profile</span>
+            <h1 className="text-4xl md:text-3xl font-bold text-slate-700 dark:text-white mb-4">
+              Edit <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 to-purple-600 dark:to-purple-400 bg-clip-text text-transparent">Profile</span>
             </h1>
-            <p className="text-xl text-slate-400">
+            <p className="text-xl  text-slate-600 dark:text-slate-400">
               Update your profile information and preferences
             </p>
           </div>
@@ -203,7 +207,7 @@ const EditProfilePage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-slate-800/50 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50"
+          className="dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50"
         >
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Avatar Upload */}
@@ -235,27 +239,27 @@ const EditProfilePage: React.FC = () => {
                   />
                 </label>
               </div>
-              <p className="text-sm text-slate-400 mt-4">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mt-4">
                 PNG, JPG up to 5MB
               </p>
             </div>
 
             {/* Basic Information */}
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+              <h3 className="text-xl font-bold text-slate-700 dark:text-white mb-6 flex items-center">
                 <User className="w-6 h-6 mr-3 text-blue-400" />
                 Basic Information
               </h3>
               
               <div className="relative">
-                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <User className="absolute left-4 top-1/2 transform -translate-y-1/2 dark:text-slate-400 w-5 h-5" />
                 <input
                   name="name"
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Full name"
-                  className={`w-full pl-12 pr-4 py-4 bg-slate-700/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                  className={`w-full pl-12 pr-4 py-4 dark:bg-slate-700/50 border border-slate-600/50 rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                     errors.name ? 'border-red-500' : 'border-slate-600'
                   }`}
                 />
@@ -271,7 +275,7 @@ const EditProfilePage: React.FC = () => {
                   type="email"
                   value={user.email}
                   disabled
-                  className="w-full pl-12 pr-4 py-4 bg-slate-600/50 border border-slate-600 rounded-xl text-slate-400 cursor-not-allowed"
+                  className="w-full pl-12 pr-4 py-4  dark:bg-slate-700/50 border rounded-xl outline-none text-slate-400 cursor-not-allowed"
                 />
               </div>
 
@@ -283,7 +287,7 @@ const EditProfilePage: React.FC = () => {
                   value={formData.location}
                   onChange={handleInputChange}
                   placeholder="Location (e.g., New York, NY)"
-                  className={`w-full pl-12 pr-4 py-4 bg-slate-700/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                  className={`w-full pl-12 pr-4 py-4 dark:bg-slate-700/50 border border-slate-600/50 rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                     errors.location ? 'border-red-500' : 'border-slate-600'
                   }`}
                 />
@@ -300,7 +304,7 @@ const EditProfilePage: React.FC = () => {
                   onChange={handleInputChange}
                   placeholder="Tell others about yourself..."
                   rows={4}
-                  className={`w-full pl-12 pr-4 py-4 bg-slate-700/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none ${
+                  className={`w-full pl-12 pr-4 py-4 dark:bg-slate-700/50 border border-slate-600/50 rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none ${
                     errors.bio ? 'border-red-500' : 'border-slate-600'
                   }`}
                 />
@@ -315,42 +319,42 @@ const EditProfilePage: React.FC = () => {
 
             {/* Preferences */}
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white mb-6">
+              <h3 className="text-xl font-bold text-slate-600 dark:text-white mb-6">
                 Preferences
               </h3>
               
               <div className="space-y-4">
-                <label className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl border border-slate-600/50 hover:bg-slate-700/50 transition-colors cursor-pointer">
-                  <span className="text-white font-medium">Email notifications</span>
+                <label className="flex items-center justify-between p-4 dark:bg-slate-700/30 rounded-xl border border-slate-600/50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer">
+                  <span className="text-slate-600 dark:text-white font-medium">Email notifications</span>
                   <input
                     type="checkbox"
                     name="preferences.emailNotifications"
                     checked={formData.preferences.emailNotifications}
                     onChange={handleInputChange}
-                    className="w-5 h-5 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
+                    className="w-5 h-5 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2 outline-none"
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl border border-slate-600/50 hover:bg-slate-700/50 transition-colors cursor-pointer">
-                  <span className="text-white font-medium">Push notifications</span>
+                <label className="flex items-center justify-between p-4 dark:bg-slate-700/30 rounded-xl border border-slate-600/50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer">
+                  <span className="text-slate-600 dark:text-white font-medium">Push notifications</span>
                   <input
                     type="checkbox"
                     name="preferences.pushNotifications"
                     checked={formData.preferences.pushNotifications}
                     onChange={handleInputChange}
-                    className="w-5 h-5 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
+                    className="w-5 h-5 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2 outline-none"
                   />
                 </label>
 
                 <div>
-                  <label className="block text-white font-medium mb-3">
+                  <label className="block text-slate-700 dark:text-white font-medium mb-3">
                     Language
                   </label>
                   <select
                     name="preferences.language"
                     value={formData.preferences.language}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-4 dark:bg-slate-700/50 border border-slate-600/50 rounded-xl dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   >
                     <option value="en">English</option>
                     <option value="es">Spanish</option>
@@ -369,7 +373,7 @@ const EditProfilePage: React.FC = () => {
                 type="button"
                 variant="outline"
                 onClick={() => navigate(-1)}
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                className="border-slate-400 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
               >
                 Cancel
               </Button>
