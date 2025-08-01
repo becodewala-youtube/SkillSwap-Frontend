@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            <Link
+           {/*  <Link
               to="/skills"
               className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
                 isActive('/skills')
@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
               }`}
             >
               Browse Skills
-            </Link>
+            </Link> */}
 
             {isAuthenticated ? (
               <>
@@ -252,14 +252,14 @@ const Navbar: React.FC = () => {
             className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50"
           >
             <div className="px-4 py-4 space-y-2">
-              <Link
+              {/* <Link
                 to="/skills"
                 onClick={() => setIsMenuOpen(false)}
                 className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300"
               >
                 Browse Skills
               </Link>
-
+ */}
               {isAuthenticated ? (
                 <>
                   <Link

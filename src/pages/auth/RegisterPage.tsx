@@ -82,7 +82,12 @@ const RegisterPage: React.FC = () => {
         password: formData.password,
       })).unwrap();
       
-      toast.success('Registration successful! Please check your email for verification.');
+      toast.success('Registration successful! Please check your email for verification.', {
+  style: {
+    background: '#1e293b',
+    color: '#ffffff',
+  },
+});
       navigate('/login');
     } catch (error) {
       // Error is handled by the useEffect above
@@ -106,7 +111,7 @@ const RegisterPage: React.FC = () => {
   const passwordValidation = validatePassword(formData.password);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
+    <div className="min-h-screen flex items-center justify-center dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -119,7 +124,7 @@ const RegisterPage: React.FC = () => {
               <span className="text-white font-bold text-2xl">SS</span>
             </div>
           </Link>
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold dark:text-white mb-4">
             Create your account
           </h2>
           <p className="text-slate-400">
@@ -149,7 +154,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Full name"
-                className={`w-full pl-12 pr-4 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-4 py-4 dark:bg-slate-800/50 border rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.name ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -166,7 +171,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email address"
-                className={`w-full pl-12 pr-4 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-4 py-4 dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.email ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -183,7 +188,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className={`w-full pl-12 pr-12 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-12 py-4 dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.password ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -232,7 +237,7 @@ const RegisterPage: React.FC = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm password"
-                className={`w-full pl-12 pr-12 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-12 py-4 dark:bg-slate-800/50 border rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.confirmPassword ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -255,9 +260,9 @@ const RegisterPage: React.FC = () => {
               name="terms"
               type="checkbox"
               required
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-600 rounded bg-slate-800"
+              className="h-4 w-4  text-blue-600 focus:ring-blue-500 border-slate-600 rounded bg-slate-800"
             />
-            <label htmlFor="terms" className="ml-2 block text-sm text-slate-300">
+            <label htmlFor="terms" className="ml-2 block text-sm text-gray-600 dark:text-slate-300">
               I agree to the{' '}
               <Link to="/terms" className="text-blue-400 hover:text-blue-300">
                 Terms of Service
@@ -293,7 +298,7 @@ const RegisterPage: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-slate-600 text-slate-300 hover:bg-slate-800 py-4"
+                className="w-full border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800 py-4"
                 onClick={handleGoogleRegister}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

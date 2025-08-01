@@ -83,7 +83,13 @@ const LoginPage: React.FC = () => {
 
     try {
       await dispatch(login(formData)).unwrap();
-      toast.success('Welcome back!');
+     toast.success('Welcome back!', {
+  style: {
+    background: '#1e293b',
+    color: '#ffffff',
+  },
+});
+
     } catch (error) {
       // Error is handled by the useEffect above
     }
@@ -104,7 +110,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
+    <div className="min-h-screen flex items-center justify-center dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-12 px-4 sm:px-6 lg:px-8 font-poppins">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -117,7 +123,7 @@ const LoginPage: React.FC = () => {
               <span className="text-white font-bold text-2xl">SS</span>
             </div>
           </Link>
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold dark:text-white mb-4">
             Welcome back
           </h2>
           <p className="text-slate-400">
@@ -147,7 +153,7 @@ const LoginPage: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email address"
-                className={`w-full pl-12 pr-4 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-4 py-4 dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.email ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -164,7 +170,7 @@ const LoginPage: React.FC = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className={`w-full pl-12 pr-12 py-4 bg-slate-800/50 border rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-12 py-4 dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.password ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -189,7 +195,7 @@ const LoginPage: React.FC = () => {
                 type="checkbox"
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-600 rounded bg-slate-800"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-300">
+              <label htmlFor="remember-me" className="ml-2 block text-sm dark:text-slate-300">
                 Remember me
               </label>
             </div>
@@ -197,7 +203,7 @@ const LoginPage: React.FC = () => {
             <div className="text-sm">
               <Link
                 to="/forgot-password"
-                className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                className="font-medium text-blue-500 hover:text-blue-300 transition-colors"
               >
                 Forgot password?
               </Link>
@@ -228,7 +234,7 @@ const LoginPage: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-slate-600 text-slate-300 hover:bg-slate-800 py-4"
+                className="w-full border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800 py-4"
                 onClick={handleGoogleLogin}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

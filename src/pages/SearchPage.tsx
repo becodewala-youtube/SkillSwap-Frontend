@@ -64,9 +64,16 @@ const SearchPage: React.FC = () => {
         setSearchSuggestions([]);
         setShowSuggestions(false);
       }
-    }, 300),
+    }, 1000),
     []
   );
+
+const debouncedSkillDispatch = useCallback(
+  debounce((params: any) => {
+    dispatch(searchSkills(params));
+  }, 1000),
+  []
+);
 
   const fetchSuggestions = async (query: string) => {
     try {
@@ -83,33 +90,32 @@ setSearchSuggestions([...new Set(suggestions)]);
   };
 
   useEffect(() => {
-    if (searchType === 'skills') {
-      const params = {
-        ...filters,
-        page: 1,
-        limit: 12,
-      };
-
-      // Remove empty filters
-      Object.keys(params).forEach(key => {
-        if (!params[key as keyof typeof params]) {
-          delete params[key as keyof typeof params];
-        }
-      });
-
-      dispatch(searchSkills(params));
-    } else {
-      searchUsers();
+  const params = {
+    ...filters,
+    page: 1,
+    limit: 12,
+  };
+  Object.keys(params).forEach(key => {
+    if (!params[key as keyof typeof params]) {
+      delete params[key as keyof typeof params];
     }
+  });
 
-    // Update URL
-    const newSearchParams = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value) newSearchParams.set(key, value);
-    });
-    if (searchType !== 'skills') newSearchParams.set('type', searchType);
-    setSearchParams(newSearchParams);
-  }, [filters, searchType, dispatch, setSearchParams]);
+  if (searchType === 'skills') {
+    debouncedSkillDispatch(params); // ⏳ wait 2 seconds
+  } else {
+    searchUsers(); // you could debounce this too similarly
+  }
+
+  // update URL
+  const newSearchParams = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) newSearchParams.set(key, value);
+  });
+  if (searchType !== 'skills') newSearchParams.set('type', searchType);
+  setSearchParams(newSearchParams);
+}, [filters, searchType, dispatch, setSearchParams, debouncedSkillDispatch]);
+
 
   // Trigger suggestions when search query changes
   useEffect(() => {
