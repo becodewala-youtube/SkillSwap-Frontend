@@ -12,7 +12,7 @@ interface SocketContextType {
   isConnected: boolean;
   joinChat: (requestId: string) => void;
   leaveChat: (requestId: string) => void;
-  sendMessage: (requestId: string, receiverId: string, content: string) => void;
+  sendMessage: (requestId: string, receiverId: string, content: string, messageType?: string, attachment?: any) => void;
   sendTyping: (requestId: string) => void;
   stopTyping: (requestId: string) => void;
 }
@@ -89,13 +89,37 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       // Handle typing indicators
       newSocket.on('user_typing', (data) => {
-        // Handle typing indicator UI updates
         console.log(`${data.name} is typing...`);
       });
 
       newSocket.on('user_stop_typing', (data) => {
-        // Handle stop typing indicator UI updates
         console.log(`User ${data.userId} stopped typing`);
+      });
+
+      // Handle call events
+      newSocket.on('incoming_call', (data) => {
+        console.log('Incoming call:', data);
+      });
+
+      newSocket.on('call_answered', (data) => {
+        console.log('Call answered:', data);
+      });
+
+      newSocket.on('call_ended', (data) => {
+        console.log('Call ended:', data);
+      });
+
+      // Handle WebRTC signaling
+      newSocket.on('webrtc_offer', (data) => {
+        console.log('WebRTC offer received:', data);
+      });
+
+      newSocket.on('webrtc_answer', (data) => {
+        console.log('WebRTC answer received:', data);
+      });
+
+      newSocket.on('webrtc_ice_candidate', (data) => {
+        console.log('ICE candidate received:', data);
       });
 
       // Handle errors
@@ -133,12 +157,14 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  const sendMessage = (requestId: string, receiverId: string, content: string) => {
+  const sendMessage = (requestId: string, receiverId: string, content: string, messageType = 'text', attachment?: any) => {
     if (socket) {
       socket.emit('send_message', {
         requestId,
         receiverId,
         content,
+        messageType,
+        attachment,
       });
     }
   };

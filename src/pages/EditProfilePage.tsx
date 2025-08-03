@@ -105,7 +105,7 @@ const EditProfilePage: React.FC = () => {
       const formData = new FormData();
       formData.append('avatar', avatarFile);
 
-      const response = await api.post('/upload/avatar', formData, {
+      const response = await api.post('/vatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

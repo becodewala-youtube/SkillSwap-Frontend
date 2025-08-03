@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { 
@@ -30,6 +30,7 @@ import { formatRelativeTime, getStatusColor, getInitials, getProficiencyColor, g
 import api from '../utils/api';
 
 const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const { mySkills, isLoading: skillsLoading } = useSelector((state: RootState) => state.skills);
@@ -111,8 +112,12 @@ const DashboardPage: React.FC = () => {
   const handleStatClick = (link: string) => {
     if (link === '#my-skills') {
       document.getElementById('my-skills')?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = link;
+    } else if (link === '/requests') {
+      navigate('/requests');
+    } else if (link === '/requests?status=completed') {
+      navigate('/requests?status=completed');
+    } else if (link === '/reviews') {
+      navigate('/reviews');
     }
   };
 
