@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
-import EmojiPicker, { Theme } from 'emoji-picker-react';
+import EmojiPicker from 'emoji-picker-react';
 import { 
   ArrowLeft, 
   Send, 
@@ -19,7 +19,10 @@ import {
   Download,
   FileText,
   PhoneCall,
-  PhoneOff
+  PhoneOff,
+  User,
+  UserX,
+  Flag
 } from 'lucide-react';
 import { RootState, AppDispatch } from '../store/store';
 import { getMessages, markMessagesAsRead, clearCurrentMessages } from '../store/slices/messagesSlice';
@@ -139,9 +142,8 @@ const ChatPage: React.FC = () => {
         setIsInCall(true);
         
         toast.success(`Incoming ${incomingCallType} call from ${callerName}`, {
-          duration: 10000
+          duration: 10000,
         });
-        // Show answer/decline buttons in your call UI instead of toast action
       });
 
       socket.on('call_answered', (data) => {
@@ -157,7 +159,7 @@ const ChatPage: React.FC = () => {
 
       socket.on('call_ended', () => {
         endCall();
-        toast('Call ended');
+        toast.info('Call ended');
       });
 
       socket.on('webrtc_offer', async (data) => {
@@ -458,6 +460,39 @@ const ChatPage: React.FC = () => {
     }
   };
 
+  const handleViewProfile = () => {
+    if (otherUser) {
+      navigate(`/profile/${otherUser._id}`);
+    }
+    setShowMoreMenu(false);
+  };
+
+  const handleBlockUser = async () => {
+    if (!otherUser) return;
+    
+    try {
+      await api.post(`/users/${otherUser._id}/block`);
+      toast.success(`${otherUser.name} has been blocked`);
+      setShowMoreMenu(false);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to block user');
+    }
+  };
+
+  const handleReportUser = async () => {
+    if (!otherUser) return;
+    
+    try {
+      await api.post(`/users/${otherUser._id}/report`, {
+        reason: 'Inappropriate behavior in chat'
+      });
+      toast.success('User reported successfully');
+      setShowMoreMenu(false);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to report user');
+    }
+  };
+
   const renderMessage = (msg: any, index: number) => {
     const isOwn = msg.senderId._id === user?._id;
     const showAvatar = index === 0 || 
@@ -501,12 +536,22 @@ const ChatPage: React.FC = () => {
                   <img
                     src={msg.attachment.url}
                     alt="Shared image"
-                    className="max-w-full h-auto rounded-lg cursor-pointer"
+                    className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                     onClick={() => window.open(msg.attachment.url, '_blank')}
                   />
                   {msg.content !== '📷 Image' && (
                     <p className="text-sm">{msg.content}</p>
                   )}
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs opacity-75">{msg.attachment.name}</span>
+                    <a
+                      href={msg.attachment.url}
+                      download
+                      className="p-1 hover:bg-white/10 rounded transition-colors"
+                    >
+                      <Download className="w-3 h-3" />
+                    </a>
+                  </div>
                 </div>
               ) : msg.messageType === 'file' && msg.attachment ? (
                 <div className="flex items-center space-x-3">
@@ -519,8 +564,7 @@ const ChatPage: React.FC = () => {
                   </div>
                   <a
                     href={msg.attachment.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    download
                     className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                   >
                     <Download className="w-4 h-4" />
@@ -652,13 +696,25 @@ const ChatPage: React.FC = () => {
                     exit={{ opacity: 0, scale: 0.95, y: -10 }}
                     className="absolute right-0 mt-2 w-48 bg-slate-700 rounded-xl shadow-xl border border-slate-600 py-2 z-50"
                   >
-                    <button className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-600 transition-colors">
+                    <button 
+                      onClick={handleViewProfile}
+                      className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-600 transition-colors flex items-center"
+                    >
+                      <User className="w-4 h-4 mr-3" />
                       View Profile
                     </button>
-                    <button className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-600 transition-colors">
+                    <button 
+                      onClick={handleBlockUser}
+                      className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-600 transition-colors flex items-center"
+                    >
+                      <UserX className="w-4 h-4 mr-3" />
                       Block User
                     </button>
-                    <button className="w-full px-4 py-2 text-left text-red-400 hover:bg-slate-600 transition-colors">
+                    <button 
+                      onClick={handleReportUser}
+                      className="w-full px-4 py-2 text-left text-red-400 hover:bg-slate-600 transition-colors flex items-center"
+                    >
+                      <Flag className="w-4 h-4 mr-3" />
                       Report
                     </button>
                   </motion.div>
@@ -924,7 +980,7 @@ const ChatPage: React.FC = () => {
                     >
                       <EmojiPicker
                         onEmojiClick={handleEmojiClick}
-                        theme={Theme.DARK}
+                        theme="dark"
                         width={300}
                         height={400}
                       />
