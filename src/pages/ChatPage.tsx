@@ -116,6 +116,8 @@ const ChatPage: React.FC = () => {
     scrollToBottom();
   }, [currentMessages]);
 
+  const pendingCandidatesRef = useRef<RTCIceCandidateInit[]>([]);
+
   // Socket event listeners
   useEffect(() => {
     if (socket) {
@@ -134,54 +136,73 @@ const ChatPage: React.FC = () => {
       });
 
       // WebRTC call events
-      socket.on('incoming_call', (data) => {
-        const { callId, callerName, callType: incomingCallType } = data;
-        setCurrentCallId(callId);
-        setCallType(incomingCallType);
-        setCallStatus('ringing');
-        setIsInCall(true);
-        
-        toast.success(`Incoming ${incomingCallType} call from ${callerName}`, {
-          duration: 10000,
-        });
-      });
+    socket.on('incoming_call', (data) => {
+      const { callId, callerName, callType: incomingCallType } = data;
+      setCurrentCallId(callId);
+      setCallType(incomingCallType);
+      setCallStatus('ringing');
+      setIsInCall(true);
 
-      socket.on('call_answered', (data) => {
-        const { accepted } = data;
-        if (accepted) {
-          setCallStatus('connected');
-          initializeWebRTC(true); // Caller creates offer
-        } else {
-          endCall();
-          toast.error('Call was declined');
-        }
+      toast.success(`Incoming ${incomingCallType} call from ${callerName}`, {
+        duration: 10000,
       });
+    });
+
+       socket.on('call_answered', (data) => {
+      const { accepted } = data;
+      if (accepted) {
+        setCallStatus('connected');
+        initializeWebRTC(true); // Caller creates offer
+      } else {
+        endCall();
+        toast.error('Call was declined');
+      }
+    });
 
       socket.on('call_ended', () => {
         endCall();
-        toast.info('Call ended');
+        toast.success('Call ended');
       });
 
-      socket.on('webrtc_offer', async (data) => {
-        const { offer, callId } = data;
-        if (callId === currentCallId) {
-          await handleWebRTCOffer(offer);
-        }
-      });
+     // Update the socket event listeners section:
+socket.on('webrtc_offer', async (data) => {
+  const { offer, callId } = data;
+  if (callId === currentCallId) {
+    await handleWebRTCOffer(offer); // Call the actual handler function
+  }
+});
 
-      socket.on('webrtc_answer', async (data) => {
-        const { answer } = data;
-        if (peerConnectionRef.current) {
-          await peerConnectionRef.current.setRemoteDescription(answer);
-        }
-      });
+socket.on('webrtc_answer', async (data) => {
+  const { answer } = data;
+  if (peerConnectionRef.current) {
+    await peerConnectionRef.current.setRemoteDescription(answer);
+    
+    // Flush queued ICE candidates
+    for (const c of pendingCandidatesRef.current) {
+      await peerConnectionRef.current.addIceCandidate(c);
+    }
+    pendingCandidatesRef.current = [];
+  }
+});
 
-      socket.on('webrtc_ice_candidate', async (data) => {
-        const { candidate } = data;
-        if (peerConnectionRef.current) {
-          await peerConnectionRef.current.addIceCandidate(candidate);
-        }
-      });
+ 
+
+ socket.on('webrtc_ice_candidate', async (data) => {
+      const { candidate } = data;
+      if (!candidate) return;
+
+      if (
+        peerConnectionRef.current &&
+        peerConnectionRef.current.remoteDescription &&
+        peerConnectionRef.current.remoteDescription.type
+      ) {
+        await peerConnectionRef.current.addIceCandidate(candidate);
+      } else {
+        pendingCandidatesRef.current.push(candidate);
+      }
+    });
+
+
 
       return () => {
         socket.off('user_typing');
@@ -281,91 +302,99 @@ const ChatPage: React.FC = () => {
   };
 
   // WebRTC Functions
-  const initializeWebRTC = async (isInitiator: boolean) => {
-    try {
-      // Get user media
-      const constraints = {
-        audio: true,
-        video: callType === 'video'
-      };
+const initializeWebRTC = async (isInitiator: boolean) => {
+  try {
+    console.log('Initializing WebRTC as', isInitiator ? 'initiator' : 'receiver');
+    
+    // Get user media
+    const constraints = {
+      audio: true,
+      video: callType === 'video'
+    };
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      localStreamRef.current = stream;
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    localStreamRef.current = stream;
 
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = stream;
-      }
-
-      // Create peer connection
-      const peerConnection = new RTCPeerConnection(rtcConfiguration);
-      peerConnectionRef.current = peerConnection;
-
-      // Add local stream to peer connection
-      stream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, stream);
-      });
-
-      // Handle remote stream
-      peerConnection.ontrack = (event) => {
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = event.streams[0];
-        }
-      };
-
-      // Handle ICE candidates
-      peerConnection.onicecandidate = (event) => {
-        if (event.candidate && socket && otherUser) {
-          socket.emit('webrtc_ice_candidate', {
-            targetUserId: otherUser._id,
-            candidate: event.candidate,
-            callId: currentCallId
-          });
-        }
-      };
-
-      // Create offer if initiator
-      if (isInitiator) {
-        const offer = await peerConnection.createOffer();
-        await peerConnection.setLocalDescription(offer);
-        
-        if (socket && otherUser) {
-          socket.emit('webrtc_offer', {
-            targetUserId: otherUser._id,
-            offer,
-            callId: currentCallId
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error initializing WebRTC:', error);
-      toast.error('Failed to access camera/microphone');
-      endCall();
+    if (localVideoRef.current) {
+      localVideoRef.current.srcObject = stream;
     }
-  };
 
-  const handleWebRTCOffer = async (offer: RTCSessionDescriptionInit) => {
-    try {
-      if (!peerConnectionRef.current) {
-        await initializeWebRTC(false);
+    // Create peer connection
+    const peerConnection = new RTCPeerConnection(rtcConfiguration);
+    peerConnectionRef.current = peerConnection;
+
+    // Add local stream to peer connection
+    stream.getTracks().forEach(track => {
+      peerConnection.addTrack(track, stream);
+    });
+
+    // Handle remote stream
+    peerConnection.ontrack = (event) => {
+      console.log('Received remote stream');
+      if (remoteVideoRef.current && event.streams[0]) {
+        remoteVideoRef.current.srcObject = event.streams[0];
       }
+    };
 
-      const peerConnection = peerConnectionRef.current!;
-      await peerConnection.setRemoteDescription(offer);
-
-      const answer = await peerConnection.createAnswer();
-      await peerConnection.setLocalDescription(answer);
-
-      if (socket && otherUser) {
-        socket.emit('webrtc_answer', {
+    // Handle ICE candidates
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate && socket && otherUser) {
+        socket.emit('webrtc_ice_candidate', {
           targetUserId: otherUser._id,
-          answer,
+          candidate: event.candidate,
           callId: currentCallId
         });
       }
-    } catch (error) {
-      console.error('Error handling WebRTC offer:', error);
+    };
+
+    // Create offer if initiator
+    if (isInitiator) {
+      const offer = await peerConnection.createOffer();
+      await peerConnection.setLocalDescription(offer);
+      
+      if (socket && otherUser) {
+        socket.emit('webrtc_offer', {
+          targetUserId: otherUser._id,
+          offer,
+          callId: currentCallId
+        });
+      }
     }
-  };
+  } catch (error) {
+    console.error('Error initializing WebRTC:', error);
+    toast.error('Failed to access camera/microphone');
+    endCall();
+  }
+};
+
+
+  const handleWebRTCOffer = async (offer: RTCSessionDescriptionInit) => {
+  try {
+    // Initialize WebRTC if not already done
+    if (!peerConnectionRef.current) {
+      await initializeWebRTC(false);
+    }
+
+    const peerConnection = peerConnectionRef.current!;
+    await peerConnection.setRemoteDescription(offer);
+
+    // Create and send answer
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+
+    if (socket && otherUser) {
+      socket.emit('webrtc_answer', {
+        targetUserId: otherUser._id,
+        answer,
+        callId: currentCallId
+      });
+    }
+  } catch (error) {
+    console.error('Error handling WebRTC offer:', error);
+    toast.error('Failed to establish video connection');
+  }
+};
+
 
   const startCall = (type: 'audio' | 'video') => {
     if (!socket || !otherUser) return;
@@ -382,16 +411,18 @@ const ChatPage: React.FC = () => {
   };
 
   const answerCall = async (callId: string) => {
-    if (!socket) return;
+  if (!socket) return;
 
-    socket.emit('answer_call', {
-      callId,
-      accepted: true
-    });
+  setCurrentCallId(callId); // Set the call ID first
+  
+  socket.emit('answer_call', {
+    callId,
+    accepted: true
+  });
 
-    setCallStatus('connected');
-    await initializeWebRTC(false); // Callee waits for offer
-  };
+  setCallStatus('connected');
+  // Don't initialize WebRTC here - wait for the offer
+};
 
   const declineCall = () => {
     if (!socket || !currentCallId) return;
@@ -980,7 +1011,7 @@ const ChatPage: React.FC = () => {
                     >
                       <EmojiPicker
                         onEmojiClick={handleEmojiClick}
-                        theme="dark"
+                        
                         width={300}
                         height={400}
                       />
