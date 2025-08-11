@@ -556,6 +556,27 @@ const answerCall = async (callId: string) => {
     const showAvatar = index === 0 || 
       currentMessages[index - 1].senderId._id !== msg.senderId._id;
 
+
+      const handleDownload = async (fileUrl: string | URL | Request, fileName: string) => {
+  try {
+    const response = await fetch(fileUrl, { mode: 'cors' });
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName || 'download';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download failed:', error);
+  }
+};
+
+
     return (
       <motion.div
         key={msg._id}
@@ -581,61 +602,68 @@ const answerCall = async (callId: string) => {
             </div>
           )}
           
-          <div className={`${!isOwn && !showAvatar ? 'ml-11' : ''}`}>
-            <div
-              className={`px-4 py-3 rounded-2xl backdrop-blur-sm ${
-                isOwn
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                  : 'bg-slate-700/50 text-white border border-slate-600/50'
-              } shadow-lg hover:shadow-xl transition-all duration-300`}
-            >
-              {msg.messageType === 'image' && msg.attachment ? (
-                <div className="space-y-2">
-                  <img
-                    src={msg.attachment.url}
-                    alt="Shared image"
-                    className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                    onClick={() => window.open(msg.attachment.url, '_blank')}
-                  />
-                  {msg.content !== '📷 Image' && (
-                    <p className="text-sm">{msg.content}</p>
-                  )}
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs opacity-75">{msg.attachment.name}</span>
-                    <a
-                      href={msg.attachment.url}
-                      download
-                      className="p-1 hover:bg-white/10 rounded transition-colors"
-                    >
-                      <Download className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              ) : msg.messageType === 'file' && msg.attachment ? (
-                <div className="flex items-center space-x-3">
-                  <FileText className="w-8 h-8 text-blue-400" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">{msg.attachment.name}</p>
-                    <p className="text-xs opacity-75">
-                      {(msg.attachment.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </div>
-                  <a
-                    href={msg.attachment.url}
-                    download
-                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    <Download className="w-4 h-4" />
-                  </a>
-                </div>
-              ) : (
-                <p className="text-sm leading-relaxed">{msg.content}</p>
-              )}
+          <div className={`${!isOwn && !showAvatar ? "ml-11" : ""}`}>
+      <div
+        className={`px-4 py-3 rounded-2xl backdrop-blur-sm ${
+          isOwn
+            ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+            : "bg-slate-700/50 text-white border border-slate-600/50"
+        } shadow-lg hover:shadow-xl transition-all duration-300`}
+      >
+        {msg.messageType === "image" && msg.attachment ? (
+          <div className="space-y-2">
+            <img
+              src={msg.attachment.url}
+              alt="Shared image"
+              className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => window.open(msg.attachment!.url, "_blank")}
+            />
+            {msg.content !== "📷 Image" && (
+              <p className="text-sm">{msg.content}</p>
+            )}
+            <div className="flex items-center justify-between mt-2">
+              <span className="text-xs opacity-75">{msg.attachment.name}</span>
+              <button
+                onClick={() =>
+                  handleDownload(msg.attachment!.url, msg.attachment!.name)
+                }
+                className="p-1 hover:bg-white/10 rounded transition-colors"
+              >
+                <Download className="w-3 h-3" />
+              </button>
             </div>
-            <p className={`text-xs text-slate-400 mt-1 ${isOwn ? 'text-right' : 'text-left'}`}>
-              {formatMessageTime(msg.timestamp)}
-            </p>
           </div>
+        ) : msg.messageType === "file" && msg.attachment ? (
+          <div className="flex items-center space-x-3">
+            <FileText className="w-8 h-8 text-blue-400" />
+            <div className="flex-1">
+              <p className="text-sm font-medium">{msg.attachment.name}</p>
+              <p className="text-xs opacity-75">
+                {(msg.attachment.size! / 1024 / 1024).toFixed(2)} MB
+              </p>
+            </div>
+            <button
+              onClick={() =>
+                handleDownload(msg.attachment!.url, msg.attachment!.name)
+              }
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <Download className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <p className="text-sm leading-relaxed">{msg.content}</p>
+        )}
+      </div>
+      <p
+        className={`text-xs text-slate-400 mt-1 ${
+          isOwn ? "text-right" : "text-left"
+        }`}
+      >
+        {formatMessageTime(msg.timestamp)}
+      </p>
+    </div>
+  
         </div>
       </motion.div>
     );
