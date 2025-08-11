@@ -92,14 +92,14 @@ const NotificationsPage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6"
         >
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
                 Notifications
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-2">
+              <p className="text-gray-600 text-sm dark:text-gray-400 mt-2">
                 Stay updated with your skill exchange activities
               </p>
             </div>
@@ -132,13 +132,13 @@ const NotificationsPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-8"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-3 mb-8"
         >
           <div className="flex items-center justify-between">
             <div className="flex space-x-4">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-1 rounded-lg text-xs font-medium transition-colors ${
                   filter === 'all'
                     ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
@@ -148,7 +148,7 @@ const NotificationsPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setFilter('unread')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-1 rounded-lg text-xs font-medium transition-colors ${
                   filter === 'unread'
                     ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'

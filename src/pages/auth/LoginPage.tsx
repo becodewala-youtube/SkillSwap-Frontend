@@ -9,6 +9,7 @@ import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import { validateEmail } from '../../utils/helpers';
 import toast from 'react-hot-toast';
+import Icon from '../../assets/icon.png'
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -119,18 +120,18 @@ const LoginPage: React.FC = () => {
       >
         <div className="text-center">
           <Link to="/" className="flex justify-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
-              <span className="text-white font-bold text-2xl">SS</span>
+            <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-fuchsia-400 rounded-2xl flex items-center justify-center shadow-2xl">
+              <img src={Icon} alt="logo" />
             </div>
           </Link>
-          <h2 className="text-4xl font-bold dark:text-white mb-4">
+          <h2 className="text-2xl font-bold dark:text-white mb-4">
             Welcome back
           </h2>
-          <p className="text-slate-400">
+          <p className="text-slate-400 text-sm">
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              className="font-medium text-rose-300 hover:text-rose-400 transition-colors"
             >
               Sign up here
             </Link>
@@ -146,14 +147,14 @@ const LoginPage: React.FC = () => {
         >
           <div className="space-y-4">
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 name="email"
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email address"
-                className={`w-full pl-12 pr-4 py-4 dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-4 py-2 text-sm dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.email ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -163,14 +164,14 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 name="password"
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className={`w-full pl-12 pr-12 py-4 dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
+                className={`w-full pl-12 pr-12 py-2 text-sm dark:bg-slate-800/50 border rounded-xl dark:text-white outline-none placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ${
                   errors.password ? 'border-red-500' : 'border-slate-600'
                 }`}
               />
@@ -193,7 +194,7 @@ const LoginPage: React.FC = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-600 rounded bg-slate-800"
+                className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-600 rounded bg-slate-800"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm dark:text-slate-300">
                 Remember me
@@ -203,7 +204,7 @@ const LoginPage: React.FC = () => {
             <div className="text-sm">
               <Link
                 to="/forgot-password"
-                className="font-medium text-blue-500 hover:text-blue-300 transition-colors"
+                className="font-medium text-rose-300 hover:text-rose-300 transition-colors "
               >
                 Forgot password?
               </Link>
@@ -213,7 +214,7 @@ const LoginPage: React.FC = () => {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 py-4 text-lg font-semibold"
+            className="w-full bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 py-2 text-lg font-semibold"
           >
             Sign in
           </Button>
@@ -234,7 +235,7 @@ const LoginPage: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800 py-4"
+                className="w-full border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800 py-2"
                 onClick={handleGoogleLogin}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

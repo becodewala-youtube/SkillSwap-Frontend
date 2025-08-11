@@ -253,7 +253,7 @@ const SkillsPage: React.FC = () => {
         {isLoading && filteredSkills.length === 0 ? (
           <div className="flex justify-center py-20">
             <div className="text-center">
-              <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
+              <div className="w-16 h-16 border-4 border-rose-200 border-t-rose-600 rounded-full animate-spin mx-auto mb-4"></div>
               <p className="text-gray-600 dark:text-gray-400 font-medium">
                 Discovering amazing skills...
               </p>

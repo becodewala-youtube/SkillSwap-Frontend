@@ -162,7 +162,7 @@ const SkillDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-rose-200 border-t-rose-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400 font-medium">Loading skill details...</p>
         </div>
       </div>
@@ -204,26 +204,26 @@ const SkillDetailPage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="card p-8 mb-8"
+          className="card py-4 px-6 mb-8"
         >
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
             <div className="flex-1">
               {/* Title and Category */}
               <div className="flex items-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary-400 to-accent-400 rounded-2xl flex items-center justify-center mr-6">
-                  <span className="text-3xl">
+                <div className="w-10 h-10 bg-gradient-to-r from-rose-400 to-accent-400 rounded-2xl flex items-center justify-center mr-6">
+                  <span className="text-xl">
                     {getCategoryIcon(currentSkill.category)}
                   </span>
                 </div>
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                     {currentSkill.title}
                   </h1>
                   <div className="flex items-center space-x-4">
                     <span className="text-gray-600 dark:text-gray-400 font-medium">
                       {categoryLabel}
                     </span>
-                    <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getProficiencyColor(currentSkill.proficiency)}`}>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getProficiencyColor(currentSkill.proficiency)}`}>
                       {capitalizeFirst(currentSkill.proficiency)}
                     </span>
                   </div>
@@ -234,8 +234,8 @@ const SkillDetailPage: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <Star className="w-5 h-5 text-yellow-400 mr-1" />
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                    <span className="text-xl font-bold text-gray-900 dark:text-white">
                       {currentSkill.rating.average.toFixed(1)}
                     </span>
                   </div>
@@ -245,8 +245,8 @@ const SkillDetailPage: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <TrendingUp className="w-5 h-5 text-green-500 mr-1" />
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                    <span className="text-xl font-bold text-gray-900 dark:text-white">
                       {currentSkill.exchangeCount}
                     </span>
                   </div>
@@ -256,8 +256,8 @@ const SkillDetailPage: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <Users className="w-5 h-5 text-blue-500 mr-1" />
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <Users className="w-4 h-4 text-blue-500 mr-1" />
+                    <span className="text-xl font-bold text-gray-900 dark:text-white">
                       {currentSkill.endorsements?.length || 0}
                     </span>
                   </div>
@@ -267,8 +267,8 @@ const SkillDetailPage: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <Calendar className="w-5 h-5 text-purple-500 mr-1" />
-                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <Calendar className="w-4 h-4 text-purple-500 mr-1" />
+                    <span className="text-lg font-bold text-gray-900 dark:text-white">
                       {formatDate(currentSkill.createdAt).split(',')[0]}
                     </span>
                   </div>
@@ -284,7 +284,7 @@ const SkillDetailPage: React.FC = () => {
                   {currentSkill.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="inline-block px-3 py-1 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-primary-900 dark:to-accent-900 text-primary-700 dark:text-primary-300 text-sm rounded-full font-medium"
+                      className="inline-block px-3 py-1 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-rose-400 dark:to-fuchsia-800 text-primary-700 dark:text-primary-100 text-xs rounded-full font-medium"
                     >
                       {tag}
                     </span>
@@ -371,13 +371,13 @@ const SkillDetailPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="card p-8"
+              className="card py-4 px-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-md font-bold text-gray-900 dark:text-white mb-4">
                 About This Skill
               </h2>
               <div className="prose prose-gray dark:prose-invert max-w-none">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
                   {currentSkill.description}
                 </p>
               </div>
@@ -389,16 +389,16 @@ const SkillDetailPage: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="card p-8"
+                className="card px-6 py-4"
               >
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 className="text-md font-bold text-gray-900 dark:text-white mb-6">
                   Availability
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                   {currentSkill.availableDays.map((day) => (
                     <div
                       key={day}
-                      className="px-4 py-2 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-primary-900 dark:to-accent-900 text-primary-700 dark:text-primary-300 text-center rounded-xl font-medium"
+                      className="px-4 py-2 text-slate-600 dark:text-white text-sm bg-gradient-to-r from-primary-100 to-accent-100 dark:from-rose-400 dark:to-accent-900   text-center rounded-xl font-medium"
                     >
                       {capitalizeFirst(day)}
                     </div>
@@ -407,12 +407,12 @@ const SkillDetailPage: React.FC = () => {
                 
                 {currentSkill.availableTimeSlots && currentSkill.availableTimeSlots.length > 0 && (
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm">
                       Time Slots
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {currentSkill.availableTimeSlots.map((slot, index) => (
-                        <div key={index} className="flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                        <div key={index} className="flex items-center p-3 bg-gray-50 dark:bg-gray-700 rounded-xl text-sm">
                           <Clock className="w-4 h-4 text-gray-500 dark:text-gray-400 mr-2" />
                           <span className="text-gray-700 dark:text-gray-300 font-medium">
                             {slot.start} - {slot.end}
@@ -430,21 +430,21 @@ const SkillDetailPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-8"
+              className="card px-6 py-4"
             >
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-md font-bold text-gray-900 dark:text-white mb-6">
                 Reviews ({reviews.length})
               </h2>
               {reviews.length > 0 ? (
                 <div className="space-y-6">
                   {reviews.slice(0, 3).map((review: any) => (
-                    <div key={review._id} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0">
+                    <div key={review._id} className="border-b border-gray-200 dark:border-gray-700 pb-2 last:border-b-0">
                       <div className="flex items-start space-x-4">
                         {review.reviewerId.avatar ? (
                           <img
                             src={review.reviewerId.avatar}
                             alt={review.reviewerId.name}
-                            className="w-12 h-12 rounded-full object-cover"
+                            className="w-10 h-10 rounded-full object-cover"
                           />
                         ) : (
                           <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -453,7 +453,7 @@ const SkillDetailPage: React.FC = () => {
                         )}
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-gray-900 dark:text-white">
+                            <h4 className="font-semibold text-sm text-gray-900 dark:text-white">
                               {review.reviewerId.name}
                             </h4>
                             <div className="flex items-center">
@@ -470,11 +470,11 @@ const SkillDetailPage: React.FC = () => {
                             </div>
                           </div>
                           {review.review && (
-                            <p className="text-gray-700 dark:text-gray-300 mb-2">
+                            <p className="text-gray-700 text-xs dark:text-gray-300 mb-2">
                               {review.review}
                             </p>
                           )}
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             {formatDate(review.createdAt)}
                           </p>
                         </div>
@@ -489,8 +489,8 @@ const SkillDetailPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Star className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <Star className="w-8 h-8 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 text-sm dark:text-gray-400">
                     No reviews yet. Be the first to exchange skills and leave a review!
                   </p>
                 </div>
@@ -507,7 +507,7 @@ const SkillDetailPage: React.FC = () => {
               transition={{ delay: 0.1 }}
               className="card p-6"
             >
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">
+              <h3 className="text-md font-bold text-gray-900 dark:text-white mb-2">
                 Skill Owner
               </h3>
               <div className="text-center">
@@ -515,7 +515,7 @@ const SkillDetailPage: React.FC = () => {
                   <img
                     src={currentSkill.userId.avatar}
                     alt={currentSkill.userId.name}
-                    className="w-20 h-20 rounded-full object-cover mx-auto mb-4 hover:scale-110 transition-transform duration-300"
+                    className="w-12 h-12 rounded-full object-cover mx-auto mb-2 hover:scale-110 transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-20 h-20 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4 hover:scale-110 transition-transform duration-300">
@@ -523,12 +523,12 @@ const SkillDetailPage: React.FC = () => {
                   </div>
                 )}
                 
-                <h4 className="font-bold text-gray-900 dark:text-white text-lg mb-2">
+                <h4 className="font-bold text-sm text-gray-900 dark:text-white  mb-2">
                   {currentSkill.userId.name}
                 </h4>
                 
                 {currentSkill.userId.location && (
-                  <div className="flex items-center justify-center text-gray-600 dark:text-gray-400 mb-4">
+                  <div className="flex items-center justify-center text-gray-600 text-xs dark:text-gray-400 mb-4">
                     <MapPin className="w-4 h-4 mr-1" />
                     {currentSkill.userId.location}
                   </div>
@@ -553,7 +553,7 @@ const SkillDetailPage: React.FC = () => {
                 </div>
 
                 <Link to={`/profile/${currentSkill.userId._id}`}>
-                  <Button variant="outline" className="w-full hover:scale-105 transition-transform">
+                  <Button variant="outline" className="w-full text-sm hover:scale-105 transition-transform">
                     View Profile
                   </Button>
                 </Link>
@@ -568,7 +568,7 @@ const SkillDetailPage: React.FC = () => {
                 transition={{ delay: 0.2 }}
                 className="card p-6"
               >
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-md font-bold text-gray-900 dark:text-white mb-4">
                   Endorsements ({currentSkill.endorsements.length})
                 </h3>
                 <div className="space-y-4">
@@ -603,7 +603,7 @@ const SkillDetailPage: React.FC = () => {
               <select
                 value={selectedMySkill}
                 onChange={(e) => setSelectedMySkill(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="">Choose a skill...</option>
                 {mySkills.map((skill) => (
@@ -623,7 +623,7 @@ const SkillDetailPage: React.FC = () => {
                 onChange={(e) => setRequestMessage(e.target.value)}
                 placeholder="Introduce yourself and explain why you'd like to exchange skills..."
                 rows={4}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 outline-none rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
 

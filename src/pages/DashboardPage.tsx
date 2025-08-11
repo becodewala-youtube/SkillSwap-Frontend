@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
-import { 
-  Plus, 
-  Users, 
-  MessageSquare, 
-  Star, 
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import {
+  Plus,
+  Users,
+  MessageSquare,
+  Star,
   TrendingUp,
   Calendar,
   Award,
@@ -17,26 +17,41 @@ import {
   Activity,
   Edit,
   Trash2,
-  Eye
-} from 'lucide-react';
-import { RootState, AppDispatch } from '../store/store';
-import { getMySkills } from '../store/slices/skillsSlice';
-import { getSentRequests, getReceivedRequests } from '../store/slices/requestsSlice';
-import { getConversations } from '../store/slices/messagesSlice';
-import { getNotifications } from '../store/slices/notificationsSlice';
-import Button from '../components/ui/Button';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { formatRelativeTime, getStatusColor, getInitials, getProficiencyColor, getCategoryIcon } from '../utils/helpers';
-import api from '../utils/api';
+  Eye,
+} from "lucide-react";
+import { RootState, AppDispatch } from "../store/store";
+import { getMySkills } from "../store/slices/skillsSlice";
+import {
+  getSentRequests,
+  getReceivedRequests,
+} from "../store/slices/requestsSlice";
+import { getConversations } from "../store/slices/messagesSlice";
+import { getNotifications } from "../store/slices/notificationsSlice";
+import Button from "../components/ui/Button";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import {
+  formatRelativeTime,
+  getStatusColor,
+  getInitials,
+  getProficiencyColor,
+  getCategoryIcon,
+} from "../utils/helpers";
+import api from "../utils/api";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { mySkills, isLoading: skillsLoading } = useSelector((state: RootState) => state.skills);
-  const { sentRequests, receivedRequests } = useSelector((state: RootState) => state.requests);
+  const { mySkills, isLoading: skillsLoading } = useSelector(
+    (state: RootState) => state.skills
+  );
+  const { sentRequests, receivedRequests } = useSelector(
+    (state: RootState) => state.requests
+  );
   const { conversations } = useSelector((state: RootState) => state.messages);
-  const { notifications } = useSelector((state: RootState) => state.notifications);
+  const { notifications } = useSelector(
+    (state: RootState) => state.notifications
+  );
 
   const [dashboardStats, setDashboardStats] = React.useState({
     skillsCount: 0,
@@ -44,7 +59,7 @@ const DashboardPage: React.FC = () => {
     receivedRequests: 0,
     completedExchanges: 0,
     unreadNotifications: 0,
-    rating: { average: 0, count: 0 }
+    rating: { average: 0, count: 0 },
   });
   const [recentReviews, setRecentReviews] = React.useState([]);
   const [isLoadingStats, setIsLoadingStats] = React.useState(true);
@@ -54,18 +69,18 @@ const DashboardPage: React.FC = () => {
     const fetchDashboardData = async () => {
       try {
         const [statsResponse] = await Promise.all([
-          api.get('/users/dashboard/stats'),
+          api.get("/users/dashboard/stats"),
           dispatch(getMySkills()),
           dispatch(getSentRequests({ limit: 5 })),
           dispatch(getReceivedRequests({ limit: 5 })),
           dispatch(getConversations()),
-          dispatch(getNotifications({ limit: 5 }))
+          dispatch(getNotifications({ limit: 5 })),
         ]);
 
         setDashboardStats(statsResponse.data.stats);
         setRecentReviews(statsResponse.data.recentReviews);
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        console.error("Error fetching dashboard data:", error);
       } finally {
         setIsLoadingStats(false);
       }
@@ -76,48 +91,52 @@ const DashboardPage: React.FC = () => {
 
   const stats = [
     {
-      title: 'My Skills',
+      title: "My Skills",
       value: dashboardStats.skillsCount,
       icon: BookOpen,
-      gradient: 'from-blue-500 to-cyan-500',
-      link: '#my-skills'
+      gradient: "from-blue-500 to-cyan-500",
+      link: "#my-skills",
     },
     {
-      title: 'Active Exchanges',
+      title: "Active Exchanges",
       value: dashboardStats.sentRequests + dashboardStats.receivedRequests,
       icon: TrendingUp,
-      gradient: 'from-green-500 to-emerald-500',
-      link: '/requests'
+      gradient: "from-green-500 to-emerald-500",
+      link: "/requests",
     },
     {
-      title: 'Completed',
+      title: "Completed",
       value: dashboardStats.completedExchanges,
       icon: Award,
-      gradient: 'from-purple-500 to-pink-500',
-      link: '/requests?status=completed'
+      gradient: "from-purple-500 to-pink-500",
+      link: "/requests?status=completed",
     },
     {
-      title: 'Rating',
+      title: "Rating",
       value: dashboardStats.rating.average.toFixed(1),
       icon: Star,
-      gradient: 'from-yellow-500 to-orange-500',
-      link: '/reviews'
-    }
+      gradient: "from-yellow-500 to-orange-500",
+      link: "/reviews",
+    },
   ];
 
-  const pendingReceivedRequests = receivedRequests.filter(req => req.status === 'pending');
+  const pendingReceivedRequests = receivedRequests.filter(
+    (req) => req.status === "pending"
+  );
   const recentConversations = conversations.slice(0, 3);
   const recentNotifications = notifications.slice(0, 5);
 
   const handleStatClick = (link: string) => {
-    if (link === '#my-skills') {
-      document.getElementById('my-skills')?.scrollIntoView({ behavior: 'smooth' });
-    } else if (link === '/requests') {
-      navigate('/requests');
-    } else if (link === '/requests?status=completed') {
-      navigate('/requests?status=completed');
-    } else if (link === '/reviews') {
-      navigate('/reviews');
+    if (link === "#my-skills") {
+      document
+        .getElementById("my-skills")
+        ?.scrollIntoView({ behavior: "smooth" });
+    } else if (link === "/requests") {
+      navigate("/requests");
+    } else if (link === "/requests?status=completed") {
+      navigate("/requests?status=completed");
+    } else if (link === "/reviews") {
+      navigate("/reviews");
     }
   };
 
@@ -125,8 +144,10 @@ const DashboardPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400 font-medium">Loading your dashboard...</p>
+          <div className="w-16 h-16 border-4 border-rose-200 border-t-rose-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400 font-medium">
+            Loading your dashboard...
+          </p>
         </div>
       </div>
     );
@@ -142,11 +163,10 @@ const DashboardPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Welcome back,{' '}
-              <span className="text-gradient">{user?.name}!</span>
+            <h1 className="text-4xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              Welcome back, <span className="text-gradient">{user?.name}!</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-md text-gray-600 dark:text-gray-400">
               Here's what's happening with your skill exchanges
             </p>
           </motion.div>
@@ -163,18 +183,20 @@ const DashboardPage: React.FC = () => {
               className="group cursor-pointer"
               onClick={() => handleStatClick(stat.link)}
             >
-              <div className="card p-6 hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
+              <div className="card p-4 hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                  <div
+                    className={`w-8 h-8 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <stat.icon className="w-4 h-4 text-white" />
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    <div className="text-2xl md:text-xl font-bold text-gray-900 dark:text-white">
                       {stat.value}
                     </div>
                   </div>
                 </div>
-                <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                <h3 className="text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                   {stat.title}
                 </h3>
               </div>
@@ -190,25 +212,26 @@ const DashboardPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-8"
+              className="card p-5"
             >
               <div className="flex items-center mb-6">
-                <Zap className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-3" />
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                <Zap className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-3" />
+                <h2 className="text-md font-bold text-gray-900 dark:text-white">
                   Quick Actions
                 </h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Link to="/skills/create">
-                  <button className="w-full p-4 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow">
-                    <Plus className="w-5 h-5 mx-auto mb-2" />
-                    Add New Skill
+                  <button className="flex items-center justify-center gap-2 w-full p-2 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400 hover:to-fuchsia-500 text-sm text-white font-medium rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow">
+                    <Plus className="w-3 h-3" />
+                    <span>Add New Skill</span>
                   </button>
                 </Link>
+
                 <Link to="/search">
-                  <button className="w-full p-4 bg-gradient-to-r from-secondary-100 to-secondary-200 hover:from-secondary-200 hover:to-secondary-300 text-secondary-800 font-medium rounded-xl transition-all duration-300 transform hover:scale-105 border border-secondary-300">
-                    <Target className="w-5 h-5 mx-auto mb-2" />
-                    Find Skills
+                  <button className="flex items-center justify-center gap-2 w-full p-2 bg-gradient-to-r from-secondary-100 to-secondary-200 hover:from-secondary-200 hover:to-secondary-300 text-sm text-secondary-800 font-medium rounded-xl transition-all duration-300 transform hover:scale-105 border border-secondary-300">
+                    <Target className="w-3 h-3" /> {/* Smaller icon */}
+                    <span>Find Skills</span>
                   </button>
                 </Link>
               </div>
@@ -224,8 +247,8 @@ const DashboardPage: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center">
-                    <Clock className="w-6 h-6 text-warning-600 dark:text-warning-400 mr-3" />
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    <Clock className="w-4 h-4 text-warning-600 dark:text-warning-400 mr-3" />
+                    <h2 className="text-md font-bold text-gray-900 dark:text-white">
                       Pending Requests
                     </h2>
                   </div>
@@ -240,14 +263,14 @@ const DashboardPage: React.FC = () => {
                   {pendingReceivedRequests.slice(0, 3).map((request) => (
                     <div
                       key={request._id}
-                      className="flex items-center justify-between p-4 bg-gradient-to-r from-warning-50 to-orange-50 dark:from-warning-900/20 dark:to-orange-900/20 rounded-xl border border-warning-200 dark:border-warning-800"
+                      className="flex items-center justify-between p-3 bg-gradient-to-r from-warning-50 to-orange-50 dark:from-warning-900/20 dark:to-orange-900/20 rounded-xl border border-warning-200 dark:border-warning-800"
                     >
                       <div className="flex items-center space-x-4">
                         {request.senderId.avatar ? (
                           <img
                             src={request.senderId.avatar}
                             alt={request.senderId.name}
-                            className="w-12 h-12 rounded-full object-cover"
+                            className="w-10 h-10 rounded-full object-cover"
                           />
                         ) : (
                           <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -255,16 +278,20 @@ const DashboardPage: React.FC = () => {
                           </div>
                         )}
                         <div>
-                          <p className="font-semibold text-gray-900 dark:text-white">
+                          <p className="font-semibold text-sm text-gray-900 dark:text-white">
                             {request.senderId.name}
                           </p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {request.senderSkillId.title} ↔ {request.receiverSkillId.title}
+                          <p className="text-xs text-gray-600 dark:text-gray-400">
+                            {request.senderSkillId.title} ↔{" "}
+                            {request.receiverSkillId.title}
                           </p>
                         </div>
                       </div>
                       <Link to="/requests">
-                        <Button size="sm" className="hover:scale-105 transition-transform">
+                        <Button
+                          size="sm"
+                          className="hover:scale-105 text-xs transition-transform"
+                        >
                           Review
                         </Button>
                       </Link>
@@ -284,8 +311,8 @@ const DashboardPage: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <BookOpen className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-3" />
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  <BookOpen className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-3" />
+                  <h2 className="text-md font-bold text-gray-900 dark:text-white">
                     My Skills
                   </h2>
                 </div>
@@ -320,12 +347,14 @@ const DashboardPage: React.FC = () => {
                               <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                                 {skill.title}
                               </h3>
-                              <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getProficiencyColor(skill.proficiency)}`}>
+                              <span
+                                className={`inline-block px-2 py-1 text-xs rounded-full text-xs font-medium ${getProficiencyColor(skill.proficiency)}`}
+                              >
                                 {skill.proficiency}
                               </span>
                             </div>
                           </div>
-                          
+
                           {/* Action Buttons */}
                           <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <Link to={`/skills/${skill._id}`}>
@@ -343,19 +372,20 @@ const DashboardPage: React.FC = () => {
                             </button>
                           </div>
                         </div>
-                        
-                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+
+                        <p className="text-gray-600 text-xs dark:text-gray-400  mb-4 line-clamp-2">
                           {skill.description}
                         </p>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                            <span className="text-sm text-gray-600 dark:text-gray-400">
-                              {skill.rating.average.toFixed(1)} ({skill.rating.count})
+                            <Star className="w-3 h-3 text-yellow-400 mr-1" />
+                            <span className="text-xs text-gray-600 dark:text-gray-400">
+                              {skill.rating.average.toFixed(1)} (
+                              {skill.rating.count})
                             </span>
                           </div>
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             {skill.exchangeCount} exchanges
                           </span>
                         </div>
@@ -365,7 +395,7 @@ const DashboardPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-primary-900 dark:to-accent-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-rose-400 dark:to-fuchsia-300 rounded-full flex items-center justify-center mx-auto mb-4">
                     <BookOpen className="w-8 h-8 text-primary-600 dark:text-primary-400" />
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -388,31 +418,36 @@ const DashboardPage: React.FC = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-6"
+              className="card py-4 px-6"
             >
               <div className="text-center">
                 {user?.avatar ? (
                   <img
                     src={user.avatar}
                     alt={user.name}
-                    className="w-20 h-20 rounded-full object-cover mx-auto mb-4 hover:scale-110 transition-transform duration-300"
+                    className="w-12 h-12 rounded-full object-cover mx-auto mb-4 hover:scale-110 transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-20 h-20 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 hover:scale-110 transition-transform duration-300">
-                    {getInitials(user?.name || 'User')}
+                    {getInitials(user?.name || "User")}
                   </div>
                 )}
-                <h3 className="font-bold text-gray-900 dark:text-white text-lg">
+                <h3 className="font-bold text-gray-900 dark:text-white text-sm">
                   {user?.name}
                 </h3>
-                <div className="flex items-center justify-center space-x-1 mt-2">
-                  <Star className="w-4 h-4 text-yellow-400" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {dashboardStats.rating.average.toFixed(1)} ({dashboardStats.rating.count} reviews)
+                <div className="flex items-center justify-center space-x-1 mt-2 ">
+                  <Star className="w-3 h-3 text-yellow-400" />
+                  <span className=" text-gray-600 dark:text-gray-400 text-xs">
+                    {dashboardStats.rating.average.toFixed(1)} (
+                    {dashboardStats.rating.count} reviews)
                   </span>
                 </div>
                 <Link to="/profile/edit" className="mt-4 inline-block">
-                  <Button variant="outline" size="sm" className="hover:scale-105 transition-transform">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="hover:scale-105 transition-transform"
+                  >
                     Edit Profile
                   </Button>
                 </Link>
@@ -428,8 +463,8 @@ const DashboardPage: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <MessageSquare className="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" />
-                  <h3 className="font-bold text-gray-900 dark:text-white">
+                  <MessageSquare className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-2" />
+                  <h3 className="font-bold text-gray-900 dark:text-white text-sm">
                     Recent Messages
                   </h3>
                 </div>
@@ -465,7 +500,8 @@ const DashboardPage: React.FC = () => {
                             {conversation.otherUser.name}
                           </p>
                           <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
-                            {conversation.lastMessage?.content || 'No messages yet'}
+                            {conversation.lastMessage?.content ||
+                              "No messages yet"}
                           </p>
                         </div>
                         {conversation.unreadCount > 0 && (
@@ -496,8 +532,8 @@ const DashboardPage: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <Activity className="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" />
-                  <h3 className="font-bold text-gray-900 dark:text-white">
+                  <Activity className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-2" />
+                  <h3 className="font-bold text-sm text-gray-900 dark:text-white">
                     Recent Activity
                   </h3>
                 </div>
@@ -514,12 +550,12 @@ const DashboardPage: React.FC = () => {
                     <div
                       key={notification._id}
                       className={`p-3 rounded-xl transition-all duration-300 hover:scale-105 ${
-                        notification.isRead 
-                          ? 'bg-gray-50 dark:bg-gray-700' 
-                          : 'bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 border border-primary-200 dark:border-primary-800'
+                        notification.isRead
+                          ? "bg-gray-50 dark:bg-gray-700"
+                          : "bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 border border-primary-200 dark:border-primary-800"
                       }`}
                     >
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <p className="text-xs font-semibold text-gray-900 dark:text-white">
                         {notification.title}
                       </p>
                       <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">

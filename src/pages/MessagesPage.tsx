@@ -40,7 +40,7 @@ const MessagesPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-rose-200 border-t-rose-500 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-400 font-medium">Loading conversations...</p>
         </div>
       </div>
@@ -56,10 +56,10 @@ const MessagesPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-700 dark:text-white mb-4">
+          <h1 className="text-4xl md:text-2xl font-bold text-slate-700 dark:text-white mb-4">
             Your <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 to-purple-600 dark:to-purple-400 bg-clip-text text-transparent">Messages</span>
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400">
+          <p className="text-md text-slate-600 dark:text-slate-400">
             Chat with your skill exchange partners
           </p>
         </motion.div>
@@ -69,7 +69,7 @@ const MessagesPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl p-6 mb-8 border border-slate-300 dark:border-slate-600/50"
+          className="dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl p-4 mb-8 border border-slate-300 dark:border-slate-600/50"
         >
           <div className="flex items-center space-x-4">
             <div className="relative flex-1">
@@ -79,7 +79,7 @@ const MessagesPage: React.FC = () => {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="w-full pl-12 pr-4 py-2 dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl outline-none dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
               />
             </div>
             <Button variant="outline" size="sm" className="border-slate-400 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
@@ -111,7 +111,7 @@ const MessagesPage: React.FC = () => {
                     to={`/chat/${conversation.request._id}`}
                     className="block"
                   >
-                    <div className="dark:bg-slate-800/50 backdrop-blur-xl border  dark:border-slate-700/50 rounded-2xl p-6 dark:hover:bg-slate-700/50 transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl">
+                    <div className="dark:bg-slate-800/50 backdrop-blur-xl border  dark:border-slate-700/50 rounded-2xl px-6 py-4 dark:hover:bg-slate-700/50 transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl">
                       <div className="flex items-center space-x-4">
                         {/* Avatar */}
                         <div className="relative flex-shrink-0">
@@ -119,7 +119,7 @@ const MessagesPage: React.FC = () => {
                             <img
                               src={conversation.otherUser.avatar}
                               alt={conversation.otherUser.name}
-                              className="w-16 h-16 rounded-full object-cover ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300"
+                              className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300"
                             />
                           ) : (
                             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg ring-2 ring-blue-500/20 group-hover:ring-blue-500/40 transition-all duration-300">
@@ -137,7 +137,7 @@ const MessagesPage: React.FC = () => {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-lg font-semibold dark:text-white truncate group-hover:text-blue-400 transition-colors">
+                            <h3 className="text-md font-semibold dark:text-white truncate group-hover:text-blue-400 transition-colors">
                               {conversation.otherUser.name}
                             </h3>
                             <div className="flex items-center space-x-2">
@@ -151,7 +151,7 @@ const MessagesPage: React.FC = () => {
 
                           {/* Skills Exchange Info */}
                           <div className="mb-3">
-                            <div className="flex items-center space-x-2 text-sm">
+                            <div className="flex items-center space-x-2 text-xs">
                               <span className="px-3 py-1 bg-blue-300/20 dark:bg-blue-500/20 text-blue-500  dark:text-blue-300 rounded-full font-medium border border-blue-500/30">
                                 {conversation.request.senderSkillId.title}
                               </span>
@@ -164,14 +164,14 @@ const MessagesPage: React.FC = () => {
 
                           {/* Last Message */}
                           {conversation.lastMessage ? (
-                            <p className="text-slate-400 truncate">
+                            <p className="text-slate-400 truncate text-xs">
                               {conversation.lastMessage.senderId._id === user?._id ? (
                                 <span className="text-blue-400 font-medium">You: </span>
                               ) : null}
                               <span className=' text-slate-700 dark:text-slate-400'>{conversation.lastMessage.content}</span>
                             </p>
                           ) : (
-                            <p className="text-slate-500 italic">
+                            <p className="text-slate-500 text-sm italic">
                               No messages yet
                             </p>
                           )}

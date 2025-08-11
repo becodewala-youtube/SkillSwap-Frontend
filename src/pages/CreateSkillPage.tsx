@@ -146,16 +146,16 @@ const CreateSkillPage: React.FC = () => {
         >
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors group"
+            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-4 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Back
           </button>
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-4xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Share Your <span className="text-gradient">Expertise</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-md text-gray-600 dark:text-gray-400">
               Create a skill profile and connect with learners worldwide
             </p>
           </div>
@@ -166,14 +166,14 @@ const CreateSkillPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="card p-8"
+          className="card py-4 px-8"
         >
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Information */}
             <div className="space-y-6">
-              <div className="flex items-center mb-6">
-                <Sparkles className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-3" />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              <div className="flex items-center mb-4">
+                <Sparkles className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-3" />
+                <h3 className="text-md font-bold text-gray-900 dark:text-white">
                   Basic Information
                 </h3>
               </div>
@@ -266,8 +266,8 @@ const CreateSkillPage: React.FC = () => {
             </div>
 
             {/* Tags */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white">
                 Tags (Optional)
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -318,7 +318,7 @@ const CreateSkillPage: React.FC = () => {
 
             {/* Availability */}
             <div className="space-y-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white">
                 Availability (Optional)
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">

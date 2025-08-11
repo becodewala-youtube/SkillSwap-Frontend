@@ -89,7 +89,8 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-4 lg:py-16">
+        {/* Background Gradient */}
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-400/20 to-accent-400/20 rounded-full blur-3xl animate-float"></div>
@@ -97,17 +98,17 @@ const HomePage: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary-300/10 to-accent-300/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-8">
           <div className="text-center">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-primary-100 to-accent-100 dark:from-primary-900/30 dark:to-accent-900/30 border border-primary-200 dark:border-primary-700 mb-8"
+              className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/30 border border-rose-300 dark:border-rose-300 mb-8"
             >
-              <Sparkles className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-2" />
-              <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
+              <Sparkles className="w-4 h-4 text-rose-500 dark:text-rose-400 mr-2" />
+              <span className="text-sm font-medium text-rose-500 dark:text-rose-300">
                 Join 2M+ learners worldwide
               </span>
             </motion.div>
@@ -116,7 +117,7 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
+              className="text-xl md:text-3xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight lg:pt-8"
             >
               Learn. Teach.{' '}
               <span className="text-gradient">
@@ -128,7 +129,7 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
+              className="text-xl md:text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
             >
               The world's most beautiful platform for skill exchange. Connect with passionate 
               learners, share your expertise, and unlock unlimited growth potential.
@@ -138,18 +139,18 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 lg:pt-6"
             >
               <Link to="/register">
-                <button className="group relative px-8 py-4 bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow-lg">
-                  <span className="flex items-center">
+                <button className="group relative px-6 py-3 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow-lg">
+                  <span className="flex items-center md:text-sm">
                     Start Learning Free
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </button>
               </Link>
               <Link to="/skills">
-                <button className="px-8 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+                <button className="px-6 py-3 md:text-sm bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
                   Explore Skills
                 </button>
               </Link>
@@ -160,7 +161,7 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+              className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto lg:pt-16"
             >
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
@@ -181,7 +182,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white dark:bg-gray-800">
+      <section className="py-20 bg-white dark:bg-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
@@ -189,16 +190,16 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+              className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
             >
-              Why Choose SkillSwap?
+              Why Choose <span className='text-gradient'>SkillSwap?</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+              className="md:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
             >
               Experience the future of learning with our innovative platform designed for modern skill exchange
             </motion.p>
@@ -215,13 +216,13 @@ const HomePage: React.FC = () => {
                 className="group relative"
               >
                 <div className="card p-8 h-full hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
-                  <div className={`w-14 h-14 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="w-7 h-7 text-white" />
+                  <div className={`w-8 h-8 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="w-4 h-4 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                  <h3 className="md:text-lg font-bold text-gray-900 dark:text-white mb-4">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <p className="md:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -232,7 +233,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -241,10 +242,10 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
                 Unlock Your Potential
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              <p className="text-md text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                 Join thousands of learners and teachers who are already transforming 
                 their lives through skill exchange. Experience growth like never before.
               </p>
@@ -262,7 +263,7 @@ const HomePage: React.FC = () => {
                     <div className="w-6 h-6 bg-gradient-to-r from-success-400 to-success-500 rounded-full flex items-center justify-center flex-shrink-0">
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-gray-700 dark:text-gray-300 font-medium">{benefit}</span>
+                    <span className="md:text-sm text-gray-700 dark:text-gray-300 font-medium">{benefit}</span>
                   </motion.div>
                 ))}
               </div>
@@ -305,7 +306,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white dark:bg-gray-800">
+      <section className="py-20 bg-white dark:bg-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
@@ -313,16 +314,16 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+              className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
             >
-              Loved by Millions
+              Loved by  <span className='text-gradient'>Millions</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-600 dark:text-gray-300"
+              className="md:text-lg text-gray-600 dark:text-gray-300"
             >
               See what our community has to say about their SkillSwap experience
             </motion.p>
@@ -340,10 +341,10 @@ const HomePage: React.FC = () => {
               >
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed italic">
+                <p className="md:text-md text-gray-700 dark:text-gray-300 mb-6 leading-relaxed italic">
                   "{testimonial.content}"
                 </p>
                 <div className="flex items-center">
@@ -368,27 +369,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 via-accent-600 to-primary-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
+       <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800    relative overflow-hidden">
+    
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-6"
-          >
-            <Heart className="w-16 h-16 text-white/80 mx-auto mb-6" />
-          </motion.div>
+          
           
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold text-white mb-6"
+            className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6"
           >
-            Ready to Start Your Journey?
+            Ready to Start Your <span className='text-gradient'>Journey?</span>
           </motion.h2>
           
           <motion.p
@@ -396,7 +389,7 @@ const HomePage: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-xl text-white/90 mb-8 leading-relaxed"
+            className="text-lg text-white/90 mb-8 leading-relaxed"
           >
             Join our community today and discover the power of skill exchange. 
             Your next breakthrough is just one connection away.
@@ -409,7 +402,7 @@ const HomePage: React.FC = () => {
             viewport={{ once: true }}
           >
             <Link to="/register">
-              <button className="group px-8 py-4 bg-white text-primary-600 font-bold rounded-2xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+              <button className="group px-6 py-3 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white font-bold rounded-2xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
                 <span className="flex items-center">
                   Get Started Now
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

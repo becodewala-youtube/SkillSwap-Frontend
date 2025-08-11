@@ -20,6 +20,7 @@ import { RootState, AppDispatch } from '../../store/store';
 import { logout } from '../../store/slices/authSlice';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getInitials } from '../../utils/helpers';
+import Icon from '../../assets/icon.png'
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,12 +49,13 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-lg">SS</span>
+            <div className="w-10 h-10  rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <img src={Icon} alt="logo" />
             </div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
-              SkillSwap
-            </span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white ">
+  SkillSwap
+</span>
+
           </Link>
 
           {/* Desktop Navigation */}
@@ -75,8 +77,8 @@ const Navbar: React.FC = () => {
                   to="/dashboard"
                   className={`text-sm font-medium transition-all duration-300 hover:scale-105 ${
                     isActive('/dashboard')
-                      ? 'text-primary-600 dark:text-primary-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
+                      ? 'text-rose-600 dark:text-rose-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400'
                   }`}
                 >
                   Dashboard
@@ -85,7 +87,7 @@ const Navbar: React.FC = () => {
                 {/* Search Icon - redirects to search page */}
                 <button
                   onClick={() => navigate('/search')}
-                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                   title="Search"
                 >
                   <Search className="w-5 h-5" />
@@ -94,7 +96,7 @@ const Navbar: React.FC = () => {
                 {/* Create Skill Button */}
                 <Link
                   to="/skills/create"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white text-sm font-medium rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white text-sm font-medium rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Skill
@@ -103,7 +105,7 @@ const Navbar: React.FC = () => {
                 {/* Notifications */}
                 <Link
                   to="/notifications"
-                  className="relative p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="relative p-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <Bell className="w-5 h-5" />
                   {notificationCount > 0 && (
@@ -116,7 +118,7 @@ const Navbar: React.FC = () => {
                 {/* Messages */}
                 <Link
                   to="/messages"
-                  className="relative p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="relative p-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <MessageSquare className="w-5 h-5" />
                   {messageCount > 0 && (
@@ -129,7 +131,7 @@ const Navbar: React.FC = () => {
                 {/* Theme Toggle */}
                 <button
                   onClick={toggleTheme}
-                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </button>
@@ -200,7 +202,7 @@ const Navbar: React.FC = () => {
                 {/* Search Icon for non-authenticated users */}
                 <button
                   onClick={() => navigate('/search')}
-                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                   title="Search"
                 >
                   <Search className="w-5 h-5" />
@@ -209,20 +211,20 @@ const Navbar: React.FC = () => {
                 {/* Theme Toggle for non-authenticated users */}
                 <button
                   onClick={toggleTheme}
-                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="p-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-110 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </button>
 
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 hover:scale-105"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-all duration-300 hover:scale-105"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white text-sm font-medium rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white text-sm font-medium rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow"
                 >
                   Get Started
                 </Link>
@@ -265,7 +267,7 @@ const Navbar: React.FC = () => {
                   <Link
                     to="/dashboard"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300"
+                    className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all duration-300"
                   >
                     Dashboard
                   </Link>

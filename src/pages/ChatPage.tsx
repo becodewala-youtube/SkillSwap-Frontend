@@ -673,7 +673,7 @@ const answerCall = async (callId: string) => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-rose-200 border-t-rose-500 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-400 font-medium">Loading conversation...</p>
         </div>
       </div>
@@ -1149,7 +1149,7 @@ const answerCall = async (callId: string) => {
               <Button 
                 onClick={handleSendFile} 
                 isLoading={isUploading}
-                className="bg-gradient-to-r from-blue-500 to-purple-500"
+                className="bg-gradient-to-r from-rose-500 to-purple-500"
               >
                 Send File
               </Button>

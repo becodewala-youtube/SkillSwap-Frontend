@@ -1,3 +1,5 @@
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,7 +36,7 @@
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-rose-500 to-fuchsia-400 bg-clip-text text-transparent;
   }
   
   .btn-primary {
@@ -54,7 +56,7 @@
   }
   
   .input-modern {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300;
+    @apply w-full px-4 py-2 text-sm outline-none outline rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300;
   }
   
   .shimmer {
@@ -76,4 +78,22 @@
   .text-shadow-lg {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #e42f92, #ff98ff);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #e42f92, #ff98ff);
 }

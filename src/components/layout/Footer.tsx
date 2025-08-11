@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
-
+import Icon from '../../assets/icon.png'
 const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
@@ -10,14 +10,14 @@ const Footer: React.FC = () => {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SS</span>
+              <div className="w-8 h-8  rounded-lg flex items-center justify-center">
+                 <img src={Icon} alt="logo" />
               </div>
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 SkillSwap
               </span>
             </Link>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md">
+            <p className="md:text-sm text-gray-600 dark:text-gray-400 mb-4 max-w-md">
               Connect with others to exchange skills and knowledge. Learn something new while teaching what you know best.
             </p>
             <div className="flex space-x-4">
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className='md:text-sm'>
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Quick Links
             </h3>
@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Support */}
-          <div>
+          <div className='md:text-sm'>
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
               Support
             </h3>
