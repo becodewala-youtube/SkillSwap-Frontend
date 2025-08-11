@@ -165,15 +165,18 @@ const ChatPage: React.FC = () => {
       });
 
      // Update the socket event listeners section:
+// Update the socket event listeners in useEffect:
 socket.on('webrtc_offer', async (data) => {
-  const { offer, callId } = data;
+  const { offer, callId, senderId } = data;
   if (callId === currentCallId) {
-    await handleWebRTCOffer(offer); // Call the actual handler function
+    console.log('Received WebRTC offer from:', senderId);
+    await handleWebRTCOffer(offer);
   }
 });
 
 socket.on('webrtc_answer', async (data) => {
-  const { answer } = data;
+  const { answer, senderId } = data;
+  console.log('Received WebRTC answer from:', senderId);
   if (peerConnectionRef.current) {
     await peerConnectionRef.current.setRemoteDescription(answer);
     
@@ -306,7 +309,7 @@ const initializeWebRTC = async (isInitiator: boolean) => {
   try {
     console.log('Initializing WebRTC as', isInitiator ? 'initiator' : 'receiver');
     
-    // Get user media
+    // Get user media first
     const constraints = {
       audio: true,
       video: callType === 'video'
@@ -315,6 +318,9 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     localStreamRef.current = stream;
 
+    console.log('Got local stream:', stream.getTracks().map(t => t.kind));
+
+    // Set local video
     if (localVideoRef.current) {
       localVideoRef.current.srcObject = stream;
     }
@@ -323,22 +329,27 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     const peerConnection = new RTCPeerConnection(rtcConfiguration);
     peerConnectionRef.current = peerConnection;
 
-    // Add local stream to peer connection
+    // Add local stream tracks to peer connection
     stream.getTracks().forEach(track => {
+      console.log('Adding track:', track.kind);
       peerConnection.addTrack(track, stream);
     });
 
     // Handle remote stream
     peerConnection.ontrack = (event) => {
-      console.log('Received remote stream');
+      console.log('Received remote track:', event.track.kind);
+      console.log('Remote streams:', event.streams);
+      
       if (remoteVideoRef.current && event.streams[0]) {
         remoteVideoRef.current.srcObject = event.streams[0];
+        console.log('Set remote video source');
       }
     };
 
     // Handle ICE candidates
     peerConnection.onicecandidate = (event) => {
       if (event.candidate && socket && otherUser) {
+        console.log('Sending ICE candidate');
         socket.emit('webrtc_ice_candidate', {
           targetUserId: otherUser._id,
           candidate: event.candidate,
@@ -347,8 +358,18 @@ const initializeWebRTC = async (isInitiator: boolean) => {
       }
     };
 
+    // Connection state logging
+    peerConnection.onconnectionstatechange = () => {
+      console.log('Connection state:', peerConnection.connectionState);
+    };
+
+    peerConnection.oniceconnectionstatechange = () => {
+      console.log('ICE connection state:', peerConnection.iceConnectionState);
+    };
+
     // Create offer if initiator
     if (isInitiator) {
+      console.log('Creating offer as initiator');
       const offer = await peerConnection.createOffer();
       await peerConnection.setLocalDescription(offer);
       
@@ -368,8 +389,11 @@ const initializeWebRTC = async (isInitiator: boolean) => {
 };
 
 
-  const handleWebRTCOffer = async (offer: RTCSessionDescriptionInit) => {
+
+const handleWebRTCOffer = async (offer: RTCSessionDescriptionInit) => {
   try {
+    console.log('Handling WebRTC offer');
+    
     // Initialize WebRTC if not already done
     if (!peerConnectionRef.current) {
       await initializeWebRTC(false);
@@ -382,6 +406,7 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     const answer = await peerConnection.createAnswer();
     await peerConnection.setLocalDescription(answer);
 
+    console.log('Sending WebRTC answer');
     if (socket && otherUser) {
       socket.emit('webrtc_answer', {
         targetUserId: otherUser._id,
@@ -394,6 +419,7 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     toast.error('Failed to establish video connection');
   }
 };
+
 
 
   const startCall = (type: 'audio' | 'video') => {
@@ -410,10 +436,10 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     });
   };
 
-  const answerCall = async (callId: string) => {
+const answerCall = async (callId: string) => {
   if (!socket) return;
 
-  setCurrentCallId(callId); // Set the call ID first
+  setCurrentCallId(callId); // Set call ID first
   
   socket.emit('answer_call', {
     callId,
@@ -421,7 +447,8 @@ const initializeWebRTC = async (isInitiator: boolean) => {
   });
 
   setCallStatus('connected');
-  // Don't initialize WebRTC here - wait for the offer
+  // Initialize WebRTC as receiver - will wait for offer
+  await initializeWebRTC(false);
 };
 
   const declineCall = () => {

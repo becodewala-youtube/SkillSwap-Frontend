@@ -70,22 +70,25 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       });
 
       // Handle notifications
-      newSocket.on('notification', (data) => {
-        dispatch(addNotification(data.notification));
-        
-        // Show toast notification
-        toast.success(data.notification.message, {
-          duration: 5000,
-        });
+     newSocket.on('notification', (data) => {
+  if (!data || !data.notification || typeof data.notification.message !== 'string') {
+    console.warn('Invalid notification payload:', data);
+    return;
+  }
 
-        // Update request status if it's a request-related notification
-        if (data.request && data.notification.type.includes('request')) {
-          dispatch(updateRequestStatus({
-            requestId: data.request._id,
-            status: data.request.status,
-          }));
-        }
-      });
+  dispatch(addNotification(data.notification));
+
+  toast.success(data.notification.message, {
+    duration: 5000,
+  });
+
+  if (data.request && data.notification.type?.includes('request')) {
+    dispatch(updateRequestStatus({
+      requestId: data.request._id,
+      status: data.request.status,
+    }));
+  }
+});
 
       // Handle typing indicators
       newSocket.on('user_typing', (data) => {

@@ -131,13 +131,21 @@ const notificationsSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    addNotification: (state, action) => {
-      const notification = action.payload;
-      state.notifications.unshift(notification);
-      if (!notification.isRead) {
-        state.unreadCount += 1;
-      }
-    },
+   addNotification: (state, action) => {
+  const notification = action.payload;
+
+  if (!notification || typeof notification.isRead === 'undefined') {
+    console.warn('Invalid notification payload:', notification);
+    return;
+  }
+
+  state.notifications.unshift(notification);
+
+  if (!notification.isRead) {
+    state.unreadCount += 1;
+  }
+},
+
     updateUnreadCount: (state, action) => {
       state.unreadCount = action.payload;
     },
