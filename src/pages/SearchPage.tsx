@@ -26,6 +26,7 @@ import {
   debounce,
 } from "../utils/helpers";
 import api from "../utils/api";
+import Avatar from "../components/ui/Avatar";
 
 interface UserResult {
   _id: string;
@@ -538,11 +539,15 @@ const SearchPage: React.FC = () => {
 
                         {/* User Info */}
                         <div className="flex items-center mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                          <img
-                            src={skill.user.avatar || "/default-avatar.png"}
-                            alt={skill.user.name}
-                            className="w-8 h-8 rounded-full object-cover mr-3"
-                          />
+                          
+
+                          <Avatar
+  src={skill.user?.avatar}
+  alt={skill.user?.name || 'User'}
+  name={skill.user?.name || 'User'}
+  size="sm"
+  className="w-8 h-8 rounded-full object-cover mr-3"
+/>
                           <div className="flex-1">
                             <p className="font-semibold text-sm text-gray-900 dark:text-white">
                               {skill.user.name}
@@ -601,11 +606,13 @@ const SearchPage: React.FC = () => {
                         {/* Header */}
                         <div className="flex items-center mb-4">
                           {user.avatar ? (
-                            <img
-                              src={user.avatar}
-                              alt={user.name}
-                              className="w-10 h-10 rounded-full object-cover mr-4 group-hover:scale-110 transition-transform duration-300"
-                            />
+                           <Avatar
+  src={user?.avatar}
+  alt={user?.name || 'User'}
+  name={user?.name || 'User'}
+  size="sm"
+  className="w-10 h-10 rounded-full object-cover mr-4 group-hover:scale-110 transition-transform duration-300"
+/>
                           ) : (
                             <div className="w-16 h-16  bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 group-hover:scale-110 transition-transform duration-300">
                               {getInitials(user.name)}

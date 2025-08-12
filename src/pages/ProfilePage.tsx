@@ -30,6 +30,7 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { formatDate, getInitials, getProficiencyColor, getCategoryIcon } from '../utils/helpers';
 import api from '../utils/api';
 import toast from 'react-hot-toast';
+import Avatar from '../components/ui/Avatar';
 
 interface UserProfile {
   _id: string;
@@ -153,28 +154,30 @@ const ProfilePage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="card p-8 mb-8"
+          className="card px-6 py-4 mb-8"
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-6 lg:space-y-0 lg:space-x-8">
             {/* Avatar and Basic Info */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="relative">
                 {profile.avatar ? (
-                  <img
-                    src={profile.avatar}
-                    alt={profile.name}
-                    className="w-32 h-32 rounded-full object-cover ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300"
-                  />
+                  <Avatar
+  src={profile?.avatar}
+  alt={profile?.name || 'User'}
+  name={profile?.name || 'User'}
+  size="md"
+  className="w-16 h-16 rounded-full object-cover ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300"
+/>
                 ) : (
-                  <div className="w-32 h-32 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-4xl font-bold ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center text-white text-2xl font-bold ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300">
                     {getInitials(profile.name)}
                   </div>
                 )}
-                <div className="absolute bottom-2 right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
+                <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
               </div>
               
               <div className="text-center sm:text-left">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                <h1 className="text-3xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   {profile.name}
                 </h1>
                 
@@ -185,19 +188,19 @@ const ProfilePage: React.FC = () => {
                       {profile.location}
                     </div>
                   )}
-                  <div className="flex items-center text-gray-600 dark:text-gray-400">
-                    <Calendar className="w-4 h-4 mr-1" />
+                  <div className="flex text-sm items-center text-gray-600 dark:text-gray-400">
+                    <Calendar className="w-3 h-3 mr-1" />
                     Joined {formatDate(profile.createdAt)}
                   </div>
                 </div>
                 
                 {/* Rating */}
                 <div className="flex items-center justify-center sm:justify-start mb-4">
-                  <div className="flex items-center">
+                  <div className="flex items-center text-sm">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${
+                        className={`w-4 h-4 ${
                           i < Math.floor(profile.rating.average)
                             ? 'text-yellow-400 fill-current'
                             : 'text-gray-300 dark:text-gray-600'
@@ -205,7 +208,7 @@ const ProfilePage: React.FC = () => {
                       />
                     ))}
                   </div>
-                  <span className="ml-2 text-gray-600 dark:text-gray-400">
+                  <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
                     {profile.rating.average.toFixed(1)} ({profile.rating.count} reviews)
                   </span>
                 </div>
@@ -264,13 +267,13 @@ const ProfilePage: React.FC = () => {
               transition={{ delay: index * 0.1 }}
               className="group"
             >
-              <div className="card p-6 hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
+              <div className="card px-6 py-4 hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                  <div className={`w-8 h-8 bg-gradient-to-r ${stat.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <stat.icon className="w-4 h-4 text-white" />
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    <div className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">
                       {stat.value}
                     </div>
                   </div>
@@ -385,8 +388,8 @@ const ProfilePage: React.FC = () => {
                 
                 {profile.skills.length === 0 && (
                   <div className="col-span-full text-center py-12">
-                    <div className="w-16 h-16 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-primary-900 dark:to-accent-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <BookOpen className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+                    <div className="w-16 h-16 bg-gradient-to-r from-rose-400 to-fuchsia-400 dark:from-rose-500 dark:to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <BookOpen className="w-8 h-8 text-white" />
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-6">
                       {isOwnProfile ? "You haven't added any skills yet" : "No skills shared yet"}
@@ -466,8 +469,8 @@ const ProfilePage: React.FC = () => {
                   ))
                 ) : (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-primary-900 dark:to-accent-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Star className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+                    <div className="w-16 h-16 bg-gradient-to-r from-rose-400 to-fuchsia-400 dark:from-rose-500 dark:to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Star className="w-8 h-8 text-white" />
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
                       No reviews yet

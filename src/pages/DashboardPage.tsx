@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -20,7 +20,7 @@ import {
   Eye,
 } from "lucide-react";
 import { RootState, AppDispatch } from "../store/store";
-import { getMySkills } from "../store/slices/skillsSlice";
+import { deleteSkill, getMySkills } from "../store/slices/skillsSlice";
 import {
   getSentRequests,
   getReceivedRequests,
@@ -37,8 +37,13 @@ import {
   getCategoryIcon,
 } from "../utils/helpers";
 import api from "../utils/api";
+import toast from "react-hot-toast";
+import Modal from "../components/ui/Modal";
+import Avatar from "../components/ui/Avatar";
 
 const DashboardPage: React.FC = () => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [skillToDelete, setSkillToDelete] = useState<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -139,7 +144,30 @@ const DashboardPage: React.FC = () => {
       navigate("/reviews");
     }
   };
+const handleDeleteSkill = async () => {
+  if (!skillToDelete) return;
 
+  try {
+    await dispatch(deleteSkill(skillToDelete._id)).unwrap();
+   toast.success('Skill deleted successfully', {
+  style: {
+    color: '#fff', // white text
+  },
+});
+
+    setShowDeleteModal(false);
+    setSkillToDelete(null);
+    // Refresh skills
+    dispatch(getMySkills());
+  } catch (error: any) {
+    toast.error(error.message || 'Failed to delete skill');
+  }
+};
+
+const openDeleteModal = (skill: any) => {
+  setSkillToDelete(skill);
+  setShowDeleteModal(true);
+};
   if (isLoadingStats) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -254,7 +282,7 @@ const DashboardPage: React.FC = () => {
                   </div>
                   <Link
                     to="/requests?tab=received"
-                    className="text-sm text-primary-600 dark:text-primary-400 hover:underline font-medium"
+                    className="text-sm text-rose-600 dark:text-rose-400 hover:underline font-medium"
                   >
                     View all
                   </Link>
@@ -311,14 +339,14 @@ const DashboardPage: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <BookOpen className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-3" />
+                  <BookOpen className="w-4 h-4 text-rose-600 dark:text-rose-400 mr-3" />
                   <h2 className="text-md font-bold text-gray-900 dark:text-white">
                     My Skills
                   </h2>
                 </div>
                 <Link
                   to="/skills/create"
-                  className="text-sm text-primary-600 dark:text-primary-400 hover:underline font-medium"
+                  className="text-sm text-rose-600 dark:text-rose-400 hover:underline font-medium"
                 >
                   Add skill
                 </Link>
@@ -348,7 +376,7 @@ const DashboardPage: React.FC = () => {
                                 {skill.title}
                               </h3>
                               <span
-                                className={`inline-block px-2 py-1 text-xs rounded-full text-xs font-medium ${getProficiencyColor(skill.proficiency)}`}
+                                className={`inline-block px-2 py-1 text-xs rounded-full font-medium ${getProficiencyColor(skill.proficiency)}`}
                               >
                                 {skill.proficiency}
                               </span>
@@ -367,9 +395,14 @@ const DashboardPage: React.FC = () => {
                                 <Edit className="w-4 h-4" />
                               </button>
                             </Link>
-                            <button className="p-2 text-gray-400 hover:text-red-600 transition-colors">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
+                         
+<button 
+  onClick={() => openDeleteModal(skill)}
+  className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+>
+  <Trash2 className="w-4 h-4" />
+</button>
+
                           </div>
                         </div>
 
@@ -395,10 +428,10 @@ const DashboardPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-gradient-to-r from-primary-100 to-accent-100 dark:from-rose-400 dark:to-fuchsia-300 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <BookOpen className="w-8 h-8 text-primary-600 dark:text-primary-400" />
+                  <div className="w-16 h-16 bg-gradient-to-r from-rose-500 to-fuchsia-500 dark:from-rose-400 dark:to-fuchsia-300 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <BookOpen className="w-8 h-8 text-white" />
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  <p className=" text-slate-700 dark:text-white mb-6">
                     You haven't added any skills yet
                   </p>
                   <Link to="/skills/create">
@@ -422,13 +455,15 @@ const DashboardPage: React.FC = () => {
             >
               <div className="text-center">
                 {user?.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user.name}
-                    className="w-12 h-12 rounded-full object-cover mx-auto mb-4 hover:scale-110 transition-transform duration-300"
-                  />
+                  <Avatar
+  src={user?.avatar}
+  alt={user?.name || 'User'}
+  name={user?.name || 'User'}
+  size="sm"
+  className="w-12 h-12 rounded-full object-cover mx-auto mb-4 hover:scale-110 transition-transform duration-300"
+/>
                 ) : (
-                  <div className="w-20 h-20 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 hover:scale-110 transition-transform duration-300">
                     {getInitials(user?.name || "User")}
                   </div>
                 )}
@@ -463,14 +498,14 @@ const DashboardPage: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <MessageSquare className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-2" />
+                  <MessageSquare className="w-4 h-4 text-rose-600 dark:text-rose-400 mr-2" />
                   <h3 className="font-bold text-gray-900 dark:text-white text-sm">
                     Recent Messages
                   </h3>
                 </div>
                 <Link
                   to="/messages"
-                  className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
+                  className="text-sm text-rose-600 dark:text-rose-400 hover:underline"
                 >
                   View all
                 </Link>
@@ -532,14 +567,14 @@ const DashboardPage: React.FC = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <Activity className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-2" />
+                  <Activity className="w-4 h-4 text-rose-600 dark:text-rose-400 mr-2" />
                   <h3 className="font-bold text-sm text-gray-900 dark:text-white">
                     Recent Activity
                   </h3>
                 </div>
                 <Link
                   to="/notifications"
-                  className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
+                  className="text-sm text-rose-600 dark:text-rose-400 hover:underline"
                 >
                   View all
                 </Link>
@@ -572,10 +607,55 @@ const DashboardPage: React.FC = () => {
                   </p>
                 </div>
               )}
+              
             </motion.div>
+            
           </div>
         </div>
+        
       </div>
+      
+<Modal
+  isOpen={showDeleteModal}
+  onClose={() => {
+    setShowDeleteModal(false);
+    setSkillToDelete(null);
+  }}
+  title="Delete Skill"
+>
+  {skillToDelete && (
+    <div className="space-y-4">
+      <p className="text-gray-700 dark:text-gray-300">
+        Are you sure you want to delete "<strong>{skillToDelete.title}</strong>"? 
+        This action cannot be undone and will remove all associated data.
+      </p>
+      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+        <p className="text-sm text-red-600 dark:text-red-400">
+          ⚠️ This will also cancel any pending requests related to this skill.
+        </p>
+      </div>
+      <div className="flex justify-end space-x-3">
+        <Button
+          variant="outline"
+          onClick={() => {
+            setShowDeleteModal(false);
+            setSkillToDelete(null);
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="danger"
+          onClick={handleDeleteSkill}
+        >
+          <Trash2 className="w-4 h-4 mr-2" />
+          Delete Skill
+        </Button>
+      </div>
+    </div>
+  )}
+</Modal>
+
     </div>
   );
 };

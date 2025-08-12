@@ -29,19 +29,24 @@ api.interceptors.request.use(
 );
 
 // Response interceptor to handle token refresh
+// In src/utils/api.ts, update the response interceptor:
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
     
+    // Handle email verification requirement
+    if (error.response?.status === 403 && error.response?.data?.requiresVerification) {
+      store.dispatch(clearCredentials());
+      window.location.href = '/login?message=Please verify your email to continue';
+      return Promise.reject(error);
+    }
+    
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       
       try {
-        // Try to refresh the token
         await store.dispatch(refreshAccessToken()).unwrap();
-        
-        // Retry the original request with new token
         const state = store.getState();
         const newToken = state.auth.token;
         
@@ -50,7 +55,6 @@ api.interceptors.response.use(
           return api(originalRequest);
         }
       } catch (refreshError) {
-        // Refresh failed, clear credentials and redirect to login
         store.dispatch(clearCredentials());
         window.location.href = '/login';
         return Promise.reject(refreshError);
@@ -60,5 +64,6 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default api;

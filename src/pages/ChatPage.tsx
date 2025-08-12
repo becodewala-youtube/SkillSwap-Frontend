@@ -145,6 +145,9 @@ const ChatPage: React.FC = () => {
 
       toast.success(`Incoming ${incomingCallType} call from ${callerName}`, {
         duration: 10000,
+         style: {
+    color: '#fff', // white text
+  },
       });
     });
 
@@ -161,7 +164,11 @@ const ChatPage: React.FC = () => {
 
       socket.on('call_ended', () => {
         endCall();
-        toast.success('Call ended');
+        toast.success('Call ended',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       });
 
      // Update the socket event listeners section:
@@ -296,7 +303,11 @@ socket.on('webrtc_answer', async (data) => {
       setSelectedFile(null);
       setPreviewUrl('');
       setShowFilePreview(false);
-      toast.success('File sent successfully!');
+      toast.success('File sent successfully!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to upload file');
     } finally {
@@ -530,7 +541,11 @@ const answerCall = async (callId: string) => {
     
     try {
       await api.post(`/users/${otherUser._id}/block`);
-      toast.success(`${otherUser.name} has been blocked`);
+      toast.success(`${otherUser.name} has been blocked`,{
+  style: {
+    color: '#fff', // white text
+  },
+});
       setShowMoreMenu(false);
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to block user');
@@ -544,7 +559,11 @@ const answerCall = async (callId: string) => {
       await api.post(`/users/${otherUser._id}/report`, {
         reason: 'Inappropriate behavior in chat'
       });
-      toast.success('User reported successfully');
+      toast.success('User reported successfully',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       setShowMoreMenu(false);
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to report user');
@@ -687,7 +706,7 @@ const answerCall = async (callId: string) => {
           <h2 className="text-2xl font-bold text-white mb-4">
             Chat not found
           </h2>
-          <Button onClick={() => navigate('/messages')} className="bg-gradient-to-r from-blue-500 to-purple-500">
+          <Button onClick={() => navigate('/messages')} className="bg-gradient-to-r from-rose-500 to-rose-500">
             Back to Messages
           </Button>
         </div>
@@ -696,18 +715,18 @@ const answerCall = async (callId: string) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col font-poppins">
+    <div className="min-h-screen   flex flex-col font-poppins">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-800/50 backdrop-blur-xl border-b border-slate-700/50 p-6"
+        className=" backdrop-blur-xl border-b dark:border-slate-700/50 p-6"
       >
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => navigate('/messages')}
-              className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-700/50 transition-all duration-300"
+              className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-rose-700/50 transition-all duration-300"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
@@ -729,15 +748,15 @@ const answerCall = async (callId: string) => {
               </div>
               
               <div>
-                <h2 className="font-bold text-white text-lg">
+                <h2 className="font-bold text-slate-700 dark:text-white text-lg">
                   {otherUser.name}
                 </h2>
                 <div className="flex items-center space-x-2">
-                  <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30">
+                  <span className="px-2 py-1 bg-blue-500/20 text-blue-500 rounded-full text-xs font-medium border border-blue-500/30">
                     {currentRequest.senderSkillId.title}
                   </span>
                   <span className="text-slate-400">↔</span>
-                  <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-medium border border-purple-500/30">
+                  <span className="px-2 py-1 bg-purple-500/20 text-purple-500 rounded-full text-xs font-medium border border-purple-500/30">
                     {currentRequest.receiverSkillId.title}
                   </span>
                 </div>
@@ -750,7 +769,7 @@ const answerCall = async (callId: string) => {
               variant="ghost" 
               size="sm" 
               onClick={() => startCall('audio')}
-              className="text-slate-400 hover:text-green-400 hover:bg-slate-700/50"
+              className="dark:text-slate-400 hover:text-green-300 "
               disabled={isInCall}
             >
               <Phone className="w-4 h-4" />
@@ -759,7 +778,7 @@ const answerCall = async (callId: string) => {
               variant="ghost" 
               size="sm" 
               onClick={() => startCall('video')}
-              className="text-slate-400 hover:text-blue-400 hover:bg-slate-700/50"
+              className="dark:text-slate-400 hover:text-blue-400 "
               disabled={isInCall}
             >
               <Video className="w-4 h-4" />
@@ -769,7 +788,7 @@ const answerCall = async (callId: string) => {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className="text-slate-400 hover:text-slate-300 hover:bg-slate-700/50"
+                className="dark:text-slate-400 hover:text-blue-500 "
               >
                 <MoreVertical className="w-4 h-4" />
               </Button>
@@ -780,29 +799,29 @@ const answerCall = async (callId: string) => {
                     initial={{ opacity: 0, scale: 0.95, y: -10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-slate-700 rounded-xl shadow-xl border border-slate-600 py-2 z-50"
+                    className="absolute  right-0 mt-2 w-48 dark:bg-slate-700 rounded-xl shadow-xl dark:border dark:border-slate-600 py-2 z-100"
                   >
                     <button 
                       onClick={handleViewProfile}
-                      className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-600 transition-colors flex items-center"
+                      className="w-full px-4 py-2 text-left text-blue-600 dark:text-slate-300 hover:text-blue-500 dark:hover:bg-slate-600 transition-colors flex items-center"
                     >
                       <User className="w-4 h-4 mr-3" />
                       View Profile
                     </button>
                     <button 
                       onClick={handleBlockUser}
-                      className="w-full px-4 py-2 text-left text-slate-300 hover:bg-slate-600 transition-colors flex items-center"
+                      className="w-full px-4 py-2 text-left text-red-600 hover:text-red-400 dark:hover:bg-slate-600 transition-colors flex items-center"
                     >
                       <UserX className="w-4 h-4 mr-3" />
                       Block User
                     </button>
-                    <button 
+                    {/* <button 
                       onClick={handleReportUser}
                       className="w-full px-4 py-2 text-left text-red-400 hover:bg-slate-600 transition-colors flex items-center"
                     >
                       <Flag className="w-4 h-4 mr-3" />
                       Report
-                    </button>
+                    </button> */}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -965,7 +984,7 @@ const answerCall = async (callId: string) => {
               <h3 className="text-xl font-bold text-white mb-2">
                 Start the conversation
               </h3>
-              <p className="text-slate-400">
+              <p className="text-slate-600 dark:text-slate-400">
                 Send your first message to begin chatting with {otherUser.name}
               </p>
             </div>
@@ -978,7 +997,7 @@ const answerCall = async (callId: string) => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-800/50 backdrop-blur-xl border-t border-slate-700/50 p-6"
+        className="dark:bg-slate-800/50 backdrop-blur-xl border-t dark:border-slate-700/50 p-6"
       >
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSendMessage} className="flex items-end space-x-4">
@@ -989,7 +1008,7 @@ const answerCall = async (callId: string) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAttachmentMenu(!showAttachmentMenu)}
-                className="text-slate-400 hover:text-slate-300 hover:bg-slate-700/50"
+                className="dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 dark:hover:bg-slate-700/50"
               >
                 <Paperclip className="w-5 h-5" />
               </Button>
@@ -1000,7 +1019,7 @@ const answerCall = async (callId: string) => {
                     initial={{ opacity: 0, scale: 0.95, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                    className="absolute bottom-full left-0 mb-2 bg-slate-700 rounded-xl shadow-xl border border-slate-600 p-2 min-w-[150px]"
+                    className="absolute bottom-full left-0 mb-2 dark:bg-slate-700 rounded-xl shadow-xl border dark:border-slate-600 p-2 min-w-[150px]"
                   >
                     <button
                       type="button"
@@ -1008,7 +1027,7 @@ const answerCall = async (callId: string) => {
                         imageInputRef.current?.click();
                         setShowAttachmentMenu(false);
                       }}
-                      className="w-full flex items-center space-x-3 px-3 py-2 text-slate-300 hover:bg-slate-600 rounded-lg transition-colors"
+                      className="w-full flex items-center space-x-3 px-3 py-2 text-slate-600 dark:text-slate-300 hover:text-blue-500 dark:hover:bg-slate-600 rounded-lg transition-colors"
                     >
                       <ImageIcon className="w-4 h-4" />
                       <span>Image</span>
@@ -1019,7 +1038,7 @@ const answerCall = async (callId: string) => {
                         fileInputRef.current?.click();
                         setShowAttachmentMenu(false);
                       }}
-                      className="w-full flex items-center space-x-3 px-3 py-2 text-slate-300 hover:bg-slate-600 rounded-lg transition-colors"
+                      className="w-full flex items-center space-x-3 px-3 py-2 text-slate-600 dark:text-slate-300 hover:text-green-500 dark:hover:bg-slate-600 rounded-lg transition-colors"
                     >
                       <FileText className="w-4 h-4" />
                       <span>File</span>
@@ -1040,7 +1059,7 @@ const answerCall = async (callId: string) => {
                   handleTyping();
                 }}
                 placeholder="Type a message..."
-                className="w-full px-4 py-3 pr-12 bg-slate-700/50 border border-slate-600 rounded-2xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="w-full px-4 py-3 pr-12 ring-1 dark:bg-slate-700/50 outline-none dark:border border-slate-600 rounded-2xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 disabled={currentRequest.status !== 'accepted' && currentRequest.status !== 'completed'}
               />
               

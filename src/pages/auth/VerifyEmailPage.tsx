@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
+import Icon from '../../assets/icon.png'
 
 const VerifyEmailPage: React.FC = () => {
   const { token } = useParams<{ token: string }>();
@@ -126,8 +127,8 @@ const VerifyEmailPage: React.FC = () => {
       >
         <div>
           <Link to="/" className="flex justify-center">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">SS</span>
+             <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-fuchsia-400 rounded-2xl flex items-center justify-center shadow-2xl">
+              <img src={Icon} alt="logo" />
             </div>
           </Link>
         </div>

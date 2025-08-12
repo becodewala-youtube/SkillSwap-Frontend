@@ -57,7 +57,7 @@ const MessagesPage: React.FC = () => {
           className="text-center mb-8"
         >
           <h1 className="text-4xl md:text-2xl font-bold text-slate-700 dark:text-white mb-4">
-            Your <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 to-purple-600 dark:to-purple-400 bg-clip-text text-transparent">Messages</span>
+            Your <span className="bg-gradient-to-r from-rose-600 dark:from-rose-400 to-fuchsia-600 dark:to-fuchsia-400 bg-clip-text text-transparent">Messages</span>
           </h1>
           <p className="text-md text-slate-600 dark:text-slate-400">
             Chat with your skill exchange partners
@@ -217,8 +217,8 @@ const MessagesPage: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="text-center py-20"
           >
-            <div className="w-24 h-24 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-500/30">
-              <MessageSquare className="w-12 h-12 text-blue-400" />
+            <div className="w-24 h-24 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-500/30">
+              <MessageSquare className="w-12 h-12 text-white" />
             </div>
             <h3 className="text-2xl font-bold text-white mb-4">
               {searchQuery ? 'No conversations found' : 'No conversations yet'}
@@ -231,18 +231,18 @@ const MessagesPage: React.FC = () => {
             </p>
             <div className="space-y-4">
               {searchQuery ? (
-                <Button onClick={() => setSearchQuery('')} className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+                <Button onClick={() => setSearchQuery('')} className="bg-gradient-to-r from-rose-500 to-fuchsia-500 hover:from-rose-600 hover:to-fuchsia-600">
                   Clear Search
                 </Button>
               ) : (
                 <Link to="/skills">
-                  <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+                  <Button className=" bg-gradient-to-r from-rose-500 to-fuchsia-500 hover:from-rose-600 hover:to-fuchsia-600">
                     Browse Skills
                   </Button>
                 </Link>
               )}
               <div>
-                <Link to="/requests" className="text-blue-400 hover:text-blue-300 hover:underline font-medium">
+                <Link to="/requests" className="text-rose-400 hover:text-rose-300 hover:underline font-medium">
                   View your requests
                 </Link>
               </div>

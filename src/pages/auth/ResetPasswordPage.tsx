@@ -7,6 +7,7 @@ import Input from '../../components/ui/Input';
 import { validatePassword } from '../../utils/helpers';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
+import Icon from '../../assets/icon.png'
 
 const ResetPasswordPage: React.FC = () => {
   const { token } = useParams<{ token: string }>();
@@ -122,8 +123,8 @@ const ResetPasswordPage: React.FC = () => {
       >
         <div>
           <Link to="/" className="flex justify-center">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">SS</span>
+           <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-fuchsia-400 rounded-2xl flex items-center justify-center shadow-2xl">
+              <img src={Icon} alt="logo" />
             </div>
           </Link>
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white">

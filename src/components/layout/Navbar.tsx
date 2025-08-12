@@ -21,6 +21,7 @@ import { logout } from '../../store/slices/authSlice';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getInitials } from '../../utils/helpers';
 import Icon from '../../assets/icon.png'
+import Avatar from '../ui/Avatar';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -143,13 +144,15 @@ const Navbar: React.FC = () => {
                     className="flex items-center space-x-2 p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 group"
                   >
                     {user?.avatar ? (
-                      <img
-                        src={user.avatar}
-                        alt={user.name}
-                        className="w-8 h-8 rounded-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
+                     <Avatar
+  src={user?.avatar}
+  alt={user?.name || 'User'}
+  name={user?.name || 'User'}
+  size="sm"
+  className="group-hover:scale-110 transition-transform duration-300"
+/>
                     ) : (
-                      <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-white text-sm font-medium group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center text-white text-sm font-medium group-hover:scale-110 transition-transform duration-300">
                         {getInitials(user?.name || 'User')}
                       </div>
                     )}

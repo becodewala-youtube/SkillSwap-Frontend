@@ -161,7 +161,11 @@ const EditSkillPage: React.FC = () => {
       };
 
       await dispatch(updateSkill({ skillId, skillData })).unwrap();
-      toast.success('Skill updated successfully!');
+      toast.success('Skill updated successfully!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       navigate(`/skills/${skillId}`);
     } catch (error: any) {
       toast.error(error.message || 'Failed to update skill');
@@ -195,7 +199,7 @@ const EditSkillPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -209,10 +213,10 @@ const EditSkillPage: React.FC = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             Edit Skill
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-gray-600 text-sm dark:text-gray-400 mt-2">
             Update your skill information
           </p>
         </motion.div>
@@ -222,12 +226,12 @@ const EditSkillPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-sm py-4 px-6"
         >
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+              <h3 className="text-md font-medium text-gray-900 dark:text-white">
                 Basic Information
               </h3>
 
@@ -252,7 +256,7 @@ const EditSkillPage: React.FC = () => {
                   onChange={handleInputChange}
                   placeholder="Describe your skill, what you can teach, your experience level, and what students can expect to learn..."
                   rows={4}
-                  className={`w-full px-3 py-2 border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  className={`w-full px-3 py-2 text-sm border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     errors.description
                       ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20'
                       : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700'
@@ -275,7 +279,7 @@ const EditSkillPage: React.FC = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    className={`w-full px-3 py-2 border text-sm rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       errors.category
                         ? 'border-red-300 dark:border-red-600'
                         : 'border-gray-300 dark:border-gray-600'
@@ -301,7 +305,7 @@ const EditSkillPage: React.FC = () => {
                     name="proficiency"
                     value={formData.proficiency}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    className={`w-full px-3 py-2 text-sm border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       errors.proficiency
                         ? 'border-red-300 dark:border-red-600'
                         : 'border-gray-300 dark:border-gray-600'
@@ -322,8 +326,8 @@ const EditSkillPage: React.FC = () => {
             </div>
 
             {/* Tags */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white">
                 Tags (Optional)
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -337,7 +341,7 @@ const EditSkillPage: React.FC = () => {
                   onChange={(e) => setNewTag(e.target.value)}
                   placeholder="Add a tag"
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                  className="flex-1"
+                  className="flex-1 text-sm"
                 />
                 <Button
                   type="button"
@@ -370,8 +374,8 @@ const EditSkillPage: React.FC = () => {
             </div>
 
             {/* Availability */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white">
                 Availability (Optional)
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">

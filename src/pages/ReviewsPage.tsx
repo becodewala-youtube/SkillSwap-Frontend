@@ -162,7 +162,11 @@ const ReviewsPage: React.FC = () => {
         categories: reviewForm.categories,
       });
 
-      toast.success('Review submitted successfully!');
+      toast.success('Review submitted successfully!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       setShowReviewModal(false);
       setSelectedRequest(null);
       setReviewForm({
@@ -209,7 +213,7 @@ const ReviewsPage: React.FC = () => {
             className={`${onRatingChange ? 'cursor-pointer' : 'cursor-default'}`}
           >
             <Star
-              className={`w-5 h-5 ${
+              className={`w-4 h-4 ${
                 star <= rating
                   ? 'text-yellow-400 fill-current'
                   : 'text-gray-300 dark:text-gray-600'
@@ -236,12 +240,12 @@ const ReviewsPage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-4"
         >
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             Reviews
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-gray-600 text-sm dark:text-gray-400 mt-2">
             Manage your reviews and feedback
           </p>
         </motion.div>
@@ -257,7 +261,7 @@ const ReviewsPage: React.FC = () => {
             <nav className="flex space-x-8 px-6">
               <button
                 onClick={() => setActiveTab('received')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'received'
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
@@ -267,7 +271,7 @@ const ReviewsPage: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveTab('given')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'given'
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
@@ -285,9 +289,9 @@ const ReviewsPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm px-6 py-4  mb-8"
           >
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-md font-semibold text-gray-900 dark:text-white mb-4">
               Pending Reviews
             </h2>
             <div className="space-y-4">
@@ -298,7 +302,7 @@ const ReviewsPage: React.FC = () => {
                 return (
                   <div
                     key={request._id}
-                    className="flex items-center justify-between p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800"
+                    className="flex items-center justify-between p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800"
                   >
                     <div className="flex items-center space-x-3">
                       <img
@@ -377,7 +381,7 @@ const ReviewsPage: React.FC = () => {
                     </div>
                     
                     {review.review && (
-                      <p className="text-gray-700 dark:text-gray-300 mb-4">
+                      <p className="text-gray-700 text-sm dark:text-gray-300 mb-4">
                         {review.review}
                       </p>
                     )}
@@ -421,7 +425,7 @@ const ReviewsPage: React.FC = () => {
           isOpen={showReviewModal}
           onClose={() => setShowReviewModal(false)}
           title="Write a Review"
-          size="lg"
+          size="md"
         >
           {selectedRequest && (
             <div className="space-y-6">
@@ -484,7 +488,7 @@ const ReviewsPage: React.FC = () => {
                   onChange={(e) => setReviewForm(prev => ({ ...prev, review: e.target.value }))}
                   placeholder="Share your experience with this skill exchange..."
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className="w-full px-3 py-2 border border-gray-300 outline-none dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
               </div>
 

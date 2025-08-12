@@ -99,7 +99,11 @@ const RequestsPage: React.FC = () => {
             scheduledDate: actionData.scheduledDate || undefined,
             meetingDetails: actionData.meetingDetails
           })).unwrap();
-          toast.success('Request accepted successfully!');
+          toast.success('Request accepted successfully!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
           break;
         
         case 'reject':
@@ -107,12 +111,20 @@ const RequestsPage: React.FC = () => {
             requestId: selectedRequest._id,
             reason: actionData.reason
           })).unwrap();
-          toast.success('Request rejected');
+          toast.success('Request rejected',{
+  style: {
+    color: '#fff', // white text
+  },
+});
           break;
         
         case 'complete':
           await dispatch(completeRequest(selectedRequest._id)).unwrap();
-          toast.success('Exchange marked as completed!');
+          toast.success('Exchange marked as completed!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
           break;
         
         case 'cancel':
@@ -120,7 +132,11 @@ const RequestsPage: React.FC = () => {
             requestId: selectedRequest._id,
             reason: actionData.reason
           })).unwrap();
-          toast.success('Request cancelled');
+          toast.success('Request cancelled',{
+  style: {
+    color: '#fff', // white text
+  },
+});
           break;
       }
       

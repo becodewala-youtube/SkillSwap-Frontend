@@ -126,7 +126,11 @@ const CreateSkillPage: React.FC = () => {
       };
 
       await dispatch(createSkill(skillData)).unwrap();
-      toast.success('Skill created successfully!');
+      toast.success('Skill created successfully!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       navigate('/dashboard');
     } catch (error: any) {
       toast.error(error.message || 'Failed to create skill');
