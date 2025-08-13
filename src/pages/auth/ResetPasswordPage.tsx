@@ -64,7 +64,11 @@ const ResetPasswordPage: React.FC = () => {
       }, 3000);
     } catch (error: any) {
       const message = error.response?.data?.message || 'Failed to reset password';
-      toast.error(message);
+      toast.error(message,{
+  style: {
+    color: '#fff', // white text
+  },
+});
       setErrors({ general: message });
     } finally {
       setIsLoading(false);

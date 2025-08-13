@@ -133,7 +133,11 @@ const CreateSkillPage: React.FC = () => {
 });
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error.message || 'Failed to create skill');
+      toast.error(error.message || 'Failed to create skill',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     } finally {
       setIsSubmitting(false);
     }
@@ -156,10 +160,10 @@ const CreateSkillPage: React.FC = () => {
             Back
           </button>
           <div className="text-center">
-            <h1 className="text-4xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-2xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2 md:mb-4">
               Share Your <span className="text-gradient">Expertise</span>
             </h1>
-            <p className="text-md text-gray-600 dark:text-gray-400">
+            <p className="text-xs md:text-md text-gray-600 dark:text-gray-400">
               Create a skill profile and connect with learners worldwide
             </p>
           </div>

@@ -128,7 +128,11 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       // Handle errors
       newSocket.on('error', (error) => {
         console.error('Socket error:', error);
-        toast.error(error.message || 'Connection error');
+        toast.error(error.message || 'Connection error',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       });
 
       setSocket(newSocket);

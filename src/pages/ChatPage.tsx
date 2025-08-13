@@ -158,7 +158,11 @@ const ChatPage: React.FC = () => {
         initializeWebRTC(true); // Caller creates offer
       } else {
         endCall();
-        toast.error('Call was declined');
+        toast.error('Call was declined',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       }
     });
 
@@ -309,7 +313,11 @@ socket.on('webrtc_answer', async (data) => {
   },
 });
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to upload file');
+      toast.error(error.response?.data?.message || 'Failed to upload file',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     } finally {
       setIsUploading(false);
     }
@@ -394,7 +402,11 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     }
   } catch (error) {
     console.error('Error initializing WebRTC:', error);
-    toast.error('Failed to access camera/microphone');
+    toast.error('Failed to access camera/microphone',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     endCall();
   }
 };
@@ -427,7 +439,11 @@ const handleWebRTCOffer = async (offer: RTCSessionDescriptionInit) => {
     }
   } catch (error) {
     console.error('Error handling WebRTC offer:', error);
-    toast.error('Failed to establish video connection');
+    toast.error('Failed to establish video connection',{
+  style: {
+    color: '#fff', // white text
+  },
+});
   }
 };
 
@@ -548,7 +564,11 @@ const answerCall = async (callId: string) => {
 });
       setShowMoreMenu(false);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to block user');
+      toast.error(error.response?.data?.message || 'Failed to block user',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     }
   };
 
@@ -566,7 +586,11 @@ const answerCall = async (callId: string) => {
 });
       setShowMoreMenu(false);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to report user');
+      toast.error(error.response?.data?.message || 'Failed to report user',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     }
   };
 
@@ -623,10 +647,10 @@ const answerCall = async (callId: string) => {
           
           <div className={`${!isOwn && !showAvatar ? "ml-11" : ""}`}>
       <div
-        className={`px-4 py-3 rounded-2xl backdrop-blur-sm ${
+        className={`px-3 py-2 rounded-2xl backdrop-blur-sm ${
           isOwn
             ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
-            : "bg-slate-700/50 text-white border border-slate-600/50"
+            : "bg-rose-400 dark:bg-slate-700/50 text-white border dark:border-slate-600/50"
         } shadow-lg hover:shadow-xl transition-all duration-300`}
       >
         {msg.messageType === "image" && msg.attachment ? (
@@ -634,7 +658,7 @@ const answerCall = async (callId: string) => {
             <img
               src={msg.attachment.url}
               alt="Shared image"
-              className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+              className="max-w-full h-24 rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
               onClick={() => window.open(msg.attachment!.url, "_blank")}
             />
             {msg.content !== "📷 Image" && (
@@ -654,7 +678,7 @@ const answerCall = async (callId: string) => {
           </div>
         ) : msg.messageType === "file" && msg.attachment ? (
           <div className="flex items-center space-x-3">
-            <FileText className="w-8 h-8 text-blue-400" />
+            <FileText className="w-8 h-8 text-white dark:text-blue-400" />
             <div className="flex-1">
               <p className="text-sm font-medium">{msg.attachment.name}</p>
               <p className="text-xs opacity-75">
@@ -1059,7 +1083,7 @@ const answerCall = async (callId: string) => {
                   handleTyping();
                 }}
                 placeholder="Type a message..."
-                className="w-full px-4 py-3 pr-12 ring-1 dark:bg-slate-700/50 outline-none dark:border border-slate-600 rounded-2xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="w-full px-4 py-3 pr-12 ring-1 dark:bg-slate-700/50 outline-none dark:border border-slate-600 rounded-2xl dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                 disabled={currentRequest.status !== 'accepted' && currentRequest.status !== 'completed'}
               />
               
@@ -1070,7 +1094,7 @@ const answerCall = async (callId: string) => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                  className="text-slate-400 hover:text-slate-300"
+                  className="text-rose-400 dark:text-slate-400 dark::text-slate-300"
                 >
                   <Smile className="w-4 h-4" />
                 </Button>

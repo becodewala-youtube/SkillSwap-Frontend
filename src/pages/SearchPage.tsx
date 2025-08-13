@@ -227,7 +227,7 @@ const SearchPage: React.FC = () => {
   const currentLoading = searchType === "skills" ? isLoading : isLoadingUsers;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -236,13 +236,13 @@ const SearchPage: React.FC = () => {
           className="mb-8"
         >
           <div className="text-center mb-8">
-            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">
               Discover Amazing{" "}
               <span className="text-gradient">
                 {searchType === "skills" ? "Skills" : "People"}
               </span>
             </h1>
-            <p className="text-md text-gray-600 dark:text-gray-400">
+            <p className="text-xs md:text-md text-gray-600 dark:text-gray-400">
               Find the perfect{" "}
               {searchType === "skills"
                 ? "skills to learn"
@@ -288,55 +288,75 @@ const SearchPage: React.FC = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="relative mb-2">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder={`Search ${searchType}... (try typing partial words)`}
-                value={filters.q}
-                onChange={(e) => handleFilterChange("q", e.target.value)}
-                onFocus={() =>
-                  filters.q.length >= 2 && setShowSuggestions(true)
-                }
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                className="w-full pl-12 pr-4 py-2 text-md rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-              />
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
-              >
-                <Filter className="w-4 h-4" />
-              </button>
-            </div>
+         {/* Mobile layout: input + filter icon in row */}
+<div className="flex items-center gap-2 mb-2 md:hidden">
+  <div className="relative flex-1">
+    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+    <input
+      type="text"
+      placeholder={`Search ${searchType}... (try typing partial words)`}
+      value={filters.q}
+      onChange={(e) => handleFilterChange("q", e.target.value)}
+      onFocus={() => filters.q.length >= 2 && setShowSuggestions(true)}
+      onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+      className="w-full outline-none pl-12 pr-4 py-2 text-md rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+    />
+    {/* Search Suggestions (mobile) */}
+    <AnimatePresence>
+      {showSuggestions && searchSuggestions.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-600 z-50"
+        >
+          {searchSuggestions.map((suggestion, index) => (
+            <button
+              key={index}
+              onClick={() => handleSuggestionClick(suggestion)}
+              className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-xl last:rounded-b-xl"
+            >
+              <div className="flex items-center">
+                <Sparkles className="w-4 h-4 text-primary-500 mr-3" />
+                <span className="text-gray-900 dark:text-white">
+                  {suggestion}
+                </span>
+              </div>
+            </button>
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
 
-            {/* Search Suggestions */}
-            <AnimatePresence>
-              {showSuggestions && searchSuggestions.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-600 z-50"
-                >
-                  {searchSuggestions.map((suggestion, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-xl last:rounded-b-xl"
-                    >
-                      <div className="flex items-center">
-                        <Sparkles className="w-4 h-4 text-primary-500 mr-3" />
-                        <span className="text-gray-900 dark:text-white">
-                          {suggestion}
-                        </span>
-                      </div>
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+  <button
+    onClick={() => setShowFilters(!showFilters)}
+    className="p-2 rounded-xl border border-gray-200 dark:border-gray-600 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
+  >
+    <Filter className="w-5 h-5" />
+  </button>
+</div>
+
+{/* Desktop layout: filter icon inside input */}
+<div className="relative mb-2 hidden md:block">
+  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+  <input
+    type="text"
+    placeholder={`Search ${searchType}... (try typing partial words)`}
+    value={filters.q}
+    onChange={(e) => handleFilterChange("q", e.target.value)}
+    onFocus={() => filters.q.length >= 2 && setShowSuggestions(true)}
+    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+    className="w-full outline-none pl-12 pr-10 py-2 text-md rounded-2xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+  />
+  <button
+    onClick={() => setShowFilters(!showFilters)}
+    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors"
+  >
+    <Filter className="w-4 h-4" />
+  </button>
+</div>
+
 
           {/* Advanced Filters */}
           <AnimatePresence>

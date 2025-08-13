@@ -36,7 +36,11 @@ const VerifyEmailPage: React.FC = () => {
       } catch (error: any) {
         setStatus('error');
         setMessage(error.response?.data?.message || 'Email verification failed');
-        toast.error('Email verification failed');
+        toast.error('Email verification failed',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       }
     };
 

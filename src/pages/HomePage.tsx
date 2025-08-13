@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  Search, 
-  Users, 
-  MessageSquare, 
-  Star, 
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Search,
+  Users,
+  MessageSquare,
+  Star,
   ArrowRight,
   CheckCircle,
   Zap,
@@ -14,74 +14,84 @@ import {
   Sparkles,
   TrendingUp,
   Award,
-  Heart
-} from 'lucide-react';
-import Button from '../components/ui/Button';
+  Heart,
+} from "lucide-react";
+import Button from "../components/ui/Button";
 
 const HomePage: React.FC = () => {
   const features = [
     {
       icon: Search,
-      title: 'Smart Discovery',
-      description: 'AI-powered skill matching connects you with the perfect learning partners instantly.',
-      gradient: 'from-blue-500 to-cyan-500',
+      title: "Smart Discovery",
+      description:
+        "AI-powered skill matching connects you with the perfect learning partners instantly.",
+      gradient: "from-blue-500 to-cyan-500",
     },
     {
       icon: Users,
-      title: 'Global Community',
-      description: 'Join millions of learners and experts from around the world in our vibrant ecosystem.',
-      gradient: 'from-purple-500 to-pink-500',
+      title: "Global Community",
+      description:
+        "Join millions of learners and experts from around the world in our vibrant ecosystem.",
+      gradient: "from-purple-500 to-pink-500",
     },
     {
       icon: MessageSquare,
-      title: 'Seamless Communication',
-      description: 'Built-in messaging, video calls, and collaboration tools for effective skill exchange.',
-      gradient: 'from-green-500 to-emerald-500',
+      title: "Seamless Communication",
+      description:
+        "Built-in messaging, video calls, and collaboration tools for effective skill exchange.",
+      gradient: "from-green-500 to-emerald-500",
     },
     {
       icon: Star,
-      title: 'Verified Excellence',
-      description: 'Comprehensive rating system and skill verification ensure quality learning experiences.',
-      gradient: 'from-yellow-500 to-orange-500',
+      title: "Verified Excellence",
+      description:
+        "Comprehensive rating system and skill verification ensure quality learning experiences.",
+      gradient: "from-yellow-500 to-orange-500",
     },
   ];
 
   const benefits = [
-    'Learn any skill for free through exchange',
-    'Teach what you know and earn recognition',
-    'Build meaningful global connections',
-    'Flexible scheduling that fits your life',
-    'Safe and secure platform with verification',
-    'Access to exclusive learning resources',
+    "Learn any skill for free through exchange",
+    "Teach what you know and earn recognition",
+    "Build meaningful global connections",
+    "Flexible scheduling that fits your life",
+    "Safe and secure platform with verification",
+    "Access to exclusive learning resources",
   ];
 
   const stats = [
-    { number: '2M+', label: 'Active Learners', icon: Users },
-    { number: '150+', label: 'Countries', icon: Globe },
-    { number: '500K+', label: 'Skills Exchanged', icon: TrendingUp },
-    { number: '4.9/5', label: 'User Rating', icon: Star },
+    { number: "2M+", label: "Active Learners", icon: Users },
+    { number: "150+", label: "Countries", icon: Globe },
+    { number: "500K+", label: "Skills Exchanged", icon: TrendingUp },
+    { number: "4.9/5", label: "User Rating", icon: Star },
   ];
 
   const testimonials = [
     {
-      name: 'Sarah Chen',
-      role: 'UX Designer',
-      avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1',
-      content: 'SkillSwap transformed my career. I learned React development by teaching design principles. The community is incredibly supportive!',
+      name: "Sarah Chen",
+      role: "UX Designer",
+      avatar:
+        "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1",
+      content:
+        "SkillSwap transformed my career. I learned React development by teaching design principles. The community is incredibly supportive!",
       rating: 5,
     },
     {
-      name: 'Marcus Rodriguez',
-      role: 'Language Teacher',
-      avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1',
-      content: 'Teaching Spanish while learning guitar has been amazing. The platform makes it so easy to connect with passionate learners.',
+      name: "Marcus Rodriguez",
+      role: "Language Teacher",
+      avatar:
+        "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1",
+      content:
+        "Teaching Spanish while learning guitar has been amazing. The platform makes it so easy to connect with passionate learners.",
       rating: 5,
     },
     {
-      name: 'Priya Patel',
-      role: 'Software Engineer',
-      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1',
-      content: 'The quality of exchanges is outstanding. I\'ve learned photography, cooking, and business skills all through this platform.',
+      name: "Priya Patel",
+      role: "Software Engineer",
+      avatar:
+        "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=1",
+      content:
+        "The quality of exchanges is outstanding. I've learned photography, cooking, and business skills all through this platform.",
       rating: 5,
     },
   ];
@@ -89,13 +99,19 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-4 lg:py-16">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 lg:py-16">
         {/* Background Gradient */}
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-400/20 to-accent-400/20 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-accent-400/20 to-primary-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary-300/10 to-accent-300/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+          <div
+            className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-accent-400/20 to-primary-400/20 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "2s" }}
+          ></div>
+          <div
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-primary-300/10 to-accent-300/10 rounded-full blur-3xl animate-float"
+            style={{ animationDelay: "4s" }}
+          ></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:py-8">
@@ -117,22 +133,21 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-xl md:text-3xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight lg:pt-8"
+              className="text-2xl md:text-3xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 leading-tight lg:pt-8"
             >
-              Learn. Teach.{' '}
-              <span className="text-gradient">
-                Grow Together.
-              </span>
+              Learn. Teach.{" "}
+              <span className="text-gradient">Grow Together.</span>
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl md:text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
+              className="text-md md:text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
             >
-              The world's most beautiful platform for skill exchange. Connect with passionate 
-              learners, share your expertise, and unlock unlimited growth potential.
+              The world's most beautiful platform for skill exchange. Connect
+              with passionate learners, share your expertise, and unlock
+              unlimited growth potential.
             </motion.p>
 
             <motion.div
@@ -142,15 +157,15 @@ const HomePage: React.FC = () => {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 lg:pt-6"
             >
               <Link to="/register">
-                <button className="group relative px-6 py-3 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow-lg">
-                  <span className="flex items-center md:text-sm">
+                <button className="group relative px-6 py-2 md:py-3 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-glow-lg">
+                  <span className="flex items-center text-xs md:text-sm">
                     Start Learning Free
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </button>
               </Link>
-              <Link to="/skills">
-                <button className="px-6 py-3 md:text-sm bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+              <Link to="/search">
+                <button className="px-6 py-2 md:py-3 text-xs md:text-sm bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
                   Explore Skills
                 </button>
               </Link>
@@ -166,12 +181,12 @@ const HomePage: React.FC = () => {
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <stat.icon className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-2" />
-                    <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    <stat.icon className="md:w-6 md:h-6 w-4 h-4  text-primary-600 dark:text-primary-400 mr-2" />
+                    <div className="textmdlg md:text-3xl font-bold text-gray-900 dark:text-white">
                       {stat.number}
                     </div>
                   </div>
-                  <div className="text-gray-600 dark:text-gray-400 font-medium">
+                  <div className="text-gray-600 text-sm md:text-md dark:text-gray-400 font-medium">
                     {stat.label}
                   </div>
                 </div>
@@ -182,7 +197,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white dark:bg-gray-800 ">
+      <section className="py-8 md:py-20 bg-white dark:bg-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
@@ -190,18 +205,19 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+              className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2"
             >
-              Why Choose <span className='text-gradient'>SkillSwap?</span>
+              Why Choose <span className="text-gradient">SkillSwap?</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="md:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+              className="text-sm md:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
             >
-              Experience the future of learning with our innovative platform designed for modern skill exchange
+              Experience the future of learning with our innovative platform
+              designed for modern skill exchange
             </motion.p>
           </div>
 
@@ -215,14 +231,16 @@ const HomePage: React.FC = () => {
                 viewport={{ once: true }}
                 className="group relative"
               >
-                <div className="card p-8 h-full hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
-                  <div className={`w-8 h-8 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div className="card p-6 md:p-8 h-full hover:shadow-glow transition-all duration-500 group-hover:-translate-y-2">
+                  <div
+                    className={`w-8 h-8 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <feature.icon className="w-4 h-4 text-white" />
                   </div>
-                  <h3 className="md:text-lg font-bold text-gray-900 dark:text-white mb-4">
+                  <h3 className="md:text-lg font-bold text-gray-900 dark:text-white mb-2 md:mb-4">
                     {feature.title}
                   </h3>
-                  <p className="md:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="md:text-sm text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -233,7 +251,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 ">
+      <section className="py-8 md:py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -242,14 +260,15 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
                 Unlock Your Potential
               </h2>
-              <p className="text-md text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                Join thousands of learners and teachers who are already transforming 
-                their lives through skill exchange. Experience growth like never before.
+              <p className="text-sm md:text-md text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                Join thousands of learners and teachers who are already
+                transforming their lives through skill exchange. Experience
+                growth like never before.
               </p>
-              
+
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <motion.div
@@ -260,10 +279,12 @@ const HomePage: React.FC = () => {
                     viewport={{ once: true }}
                     className="flex items-center space-x-3"
                   >
-                    <div className="w-6 h-6 bg-gradient-to-r from-success-400 to-success-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle className="w-4 h-4 text-white" />
+                    <div className="w-4 md:w-6 h-4 md:h-6 bg-gradient-to-r from-success-400 to-success-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <CheckCircle className="w-3 md:w-4 h-3 md:h-4 text-white" />
                     </div>
-                    <span className="md:text-sm text-gray-700 dark:text-gray-300 font-medium">{benefit}</span>
+                    <span className="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-medium">
+                      {benefit}
+                    </span>
                   </motion.div>
                 ))}
               </div>
@@ -279,25 +300,41 @@ const HomePage: React.FC = () => {
               <div className="space-y-6">
                 <div className="card-glass p-6 hover:shadow-glow transition-all duration-300">
                   <Zap className="w-8 h-8 text-primary-500 mb-3" />
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Lightning Fast</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Find perfect matches in seconds</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">
+                    Lightning Fast
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Find perfect matches in seconds
+                  </p>
                 </div>
                 <div className="card-glass p-6 hover:shadow-glow transition-all duration-300">
                   <Shield className="w-8 h-8 text-success-500 mb-3" />
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">100% Secure</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Your safety is our priority</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">
+                    100% Secure
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Your safety is our priority
+                  </p>
                 </div>
               </div>
               <div className="space-y-6 mt-8">
                 <div className="card-glass p-6 hover:shadow-glow transition-all duration-300">
                   <Globe className="w-8 h-8 text-accent-500 mb-3" />
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Global Reach</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Connect worldwide instantly</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">
+                    Global Reach
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Connect worldwide instantly
+                  </p>
                 </div>
                 <div className="card-glass p-6 hover:shadow-glow transition-all duration-300">
                   <Award className="w-8 h-8 text-warning-500 mb-3" />
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Quality Assured</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Verified skills and reviews</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">
+                    Quality Assured
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Verified skills and reviews
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -306,7 +343,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white dark:bg-gray-800 ">
+      <section className="py-8 md:py-20 bg-white dark:bg-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <motion.h2
@@ -314,22 +351,27 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+              className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 md:mb-4"
             >
-              Loved by  <span className='text-gradient'>Millions</span>
+              Loved by <span className="text-gradient">Millions</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="md:text-lg text-gray-600 dark:text-gray-300"
+              className="text-sm md:text-lg text-gray-600 dark:text-gray-300"
             >
               See what our community has to say about their SkillSwap experience
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            className="
+    flex overflow-x-auto overflow-y-hidden space-x-6 md:grid md:grid-cols-3 md:gap-8
+    scrollbar-hide
+  "
+          >
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
@@ -337,27 +379,33 @@ const HomePage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="card p-8 hover:shadow-glow transition-all duration-300 hover:-translate-y-2"
+                className="
+        min-w-[85%] sm:min-w-[60%] md:min-w-0
+        card p-8 hover:shadow-glow transition-all duration-300 hover:-translate-y-2
+      "
               >
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star
+                      key={i}
+                      className="w-4 h-4 text-yellow-400 fill-current"
+                    />
                   ))}
                 </div>
-                <p className="md:text-md text-gray-700 dark:text-gray-300 mb-6 leading-relaxed italic">
+                <p className="text-sm md:text-md text-gray-700 dark:text-gray-300 mb-6 leading-relaxed italic">
                   "{testimonial.content}"
                 </p>
                 <div className="flex items-center">
                   <img
                     src={testimonial.avatar}
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
+                    className="w-8 md:w-12 h-8 md:h-12 rounded-full object-cover mr-4"
                   />
                   <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white">
+                    <h4 className="font-bold text-sm md:text-md text-gray-900 dark:text-white">
                       {testimonial.name}
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">
                       {testimonial.role}
                     </p>
                   </div>
@@ -369,32 +417,29 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-       <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800    relative overflow-hidden">
-    
+      <section className="py-8 md:py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800    relative overflow-hidden">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          
-          
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6"
+            className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 md:mb-6"
           >
-            Ready to Start Your <span className='text-gradient'>Journey?</span>
+            Ready to Start Your <span className="text-gradient">Journey?</span>
           </motion.h2>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg text-white/90 mb-8 leading-relaxed"
+            className="text-sm md:text-lg text-white/90 mb-8 leading-relaxed"
           >
-            Join our community today and discover the power of skill exchange. 
+            Join our community today and discover the power of skill exchange.
             Your next breakthrough is just one connection away.
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -402,8 +447,8 @@ const HomePage: React.FC = () => {
             viewport={{ once: true }}
           >
             <Link to="/register">
-              <button className="group px-6 py-3 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white font-bold rounded-2xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-                <span className="flex items-center">
+              <button className="group px-6 py-2 md:py-3 bg-gradient-to-r from-rose-500 to-fuchsia-400 hover:from-rose-400  hover:to-fuchsia-500 text-white font-bold rounded-2xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+                <span className="flex items-center  text-sm md:text-md">
                   Get Started Now
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>

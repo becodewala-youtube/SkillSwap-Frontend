@@ -91,7 +91,11 @@ const ProfilePage: React.FC = () => {
         setProfile(response.data.user);
         setReviews(response.data.reviews);
       } catch (error: any) {
-        toast.error(error.response?.data?.message || 'Failed to fetch profile');
+        toast.error(error.response?.data?.message || 'Failed to fetch profile',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       } finally {
         setIsLoading(false);
       }
@@ -156,100 +160,109 @@ const ProfilePage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="card px-6 py-4 mb-8"
         >
-          <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-6 lg:space-y-0 lg:space-x-8">
-            {/* Avatar and Basic Info */}
-            <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-              <div className="relative">
-                {profile.avatar ? (
-                  <Avatar
-  src={profile?.avatar}
-  alt={profile?.name || 'User'}
-  name={profile?.name || 'User'}
-  size="md"
-  className="w-16 h-16 rounded-full object-cover ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300"
-/>
-                ) : (
-                  <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center text-white text-2xl font-bold ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300">
-                    {getInitials(profile.name)}
-                  </div>
-                )}
-                <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
-              </div>
-              
-              <div className="text-center sm:text-left">
-                <h1 className="text-3xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                  {profile.name}
-                </h1>
-                
-                <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-4 mb-4">
-                  {profile.location && (
-                    <div className="flex items-center text-gray-600 dark:text-gray-400">
-                      <MapPin className="w-4 h-4 mr-1" />
-                      {profile.location}
-                    </div>
-                  )}
-                  <div className="flex text-sm items-center text-gray-600 dark:text-gray-400">
-                    <Calendar className="w-3 h-3 mr-1" />
-                    Joined {formatDate(profile.createdAt)}
-                  </div>
-                </div>
-                
-                {/* Rating */}
-                <div className="flex items-center justify-center sm:justify-start mb-4">
-                  <div className="flex items-center text-sm">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(profile.rating.average)
-                            ? 'text-yellow-400 fill-current'
-                            : 'text-gray-300 dark:text-gray-600'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                    {profile.rating.average.toFixed(1)} ({profile.rating.count} reviews)
-                  </span>
-                </div>
+<div className="flex flex-col lg:flex-row lg:items-center w-full gap-6 md:p-2 rounded-xl bg-white dark:bg-gray-800 ">
+  {/* Avatar + Info */}
+  <div className="flex flex-row items-start sm:items-center w-full gap-4">
+    {/* Avatar */}
+    <div className="relative flex-shrink-0">
+      {profile.avatar ? (
+        <Avatar
+          src={profile?.avatar}
+          alt={profile?.name || 'User'}
+          name={profile?.name || 'User'}
+          size="md"
+          className="w-16 h-16 rounded-full object-cover ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300"
+        />
+      ) : (
+        <div className="w-16 h-16 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center text-white text-2xl font-bold ring-4 ring-primary-500/20 shadow-2xl hover:scale-110 transition-transform duration-300">
+          {getInitials(profile.name)}
+        </div>
+      )}
+      <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
+    </div>
 
-                {/* Bio */}
-                {profile.bio && (
-                  <p className="text-gray-600 dark:text-gray-400 max-w-md leading-relaxed">
-                    {profile.bio}
-                  </p>
-                )}
-              </div>
-            </div>
+    {/* Name + Details */}
+    <div className="flex flex-col flex-1">
+      <h1 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">
+        {profile.name}
+      </h1>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col space-y-3 lg:ml-auto">
-              {isOwnProfile ? (
-                <Link to="/profile/edit">
-                  <Button className="w-full hover:scale-105 transition-transform">
-                    <Edit className="w-4 h-4 mr-2" />
-                    Edit Profile
-                  </Button>
-                </Link>
-              ) : (
-                <>
-                  <Button className="w-full hover:scale-105 transition-transform">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Message
-                  </Button>
-                  <div className="flex space-x-2">
-                    <Button variant="outline" className="flex-1 hover:scale-105 transition-transform">
-                      <Heart className="w-4 h-4 mr-2" />
-                      Follow
-                    </Button>
-                    <Button variant="outline" className="hover:scale-105 transition-transform">
-                      <Share2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </>
-              )}
-            </div>
+      {/* Location & Join Date */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mt-1">
+        {profile.location && (
+          <div className="flex items-center">
+            <MapPin className="w-4 h-4 mr-1" />
+            {profile.location}
           </div>
+        )}
+        <div className="flex items-center">
+          <Calendar className="w-3 h-3 mr-1" />
+          Joined {formatDate(profile.createdAt)}
+        </div>
+      </div>
+
+      {/* Rating */}
+      <div className="flex items-center mt-2">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            className={`w-4 h-4 ${
+              i < Math.floor(profile.rating.average)
+                ? 'text-yellow-400 fill-current'
+                : 'text-gray-300 dark:text-gray-600'
+            }`}
+          />
+        ))}
+        <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+          {profile.rating.average.toFixed(1)} ({profile.rating.count} reviews)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  {/* Bio */}
+  {profile.bio && (
+    <p className="text-gray-600 dark:text-gray-400 leading-relaxed mt-4 lg:mt-0">
+      {profile.bio}
+    </p>
+  )}
+
+  {/* Action Buttons */}
+  <div className="flex flex-col gap-3 w-full lg:w-auto mt-4 lg:mt-0">
+    {isOwnProfile ? (
+      <Link to="/profile/edit" className="w-full">
+        <Button className="w-full hover:scale-105 transition-transform">
+          <Edit className="w-4 h-4 mr-2" />
+          Edit
+        </Button>
+      </Link>
+    ) : (
+      <>
+        <Button className="w-full sm:w-auto lg:w-full hover:scale-105 transition-transform">
+          <MessageSquare className="w-4 h-4 mr-2" />
+          Message
+        </Button>
+        <div className="flex gap-2 w-full sm:w-auto lg:w-full">
+          <Button
+            variant="outline"
+            className="flex-1 hover:scale-105 transition-transform"
+          >
+            <Heart className="w-4 h-4 mr-2" />
+            Follow
+          </Button>
+          <Button
+            variant="outline"
+            className="hover:scale-105 transition-transform"
+          >
+            <Share2 className="w-4 h-4" />
+          </Button>
+        </div>
+      </>
+    )}
+  </div>
+</div>
+
+
         </motion.div>
 
         {/* Stats */}
@@ -257,7 +270,7 @@ const ProfilePage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8"
         >
           {stats.map((stat, index) => (
             <motion.div

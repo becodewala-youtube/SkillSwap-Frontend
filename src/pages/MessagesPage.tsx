@@ -49,17 +49,17 @@ const MessagesPage: React.FC = () => {
 
   return (
     <div className="min-h-screen dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 font-poppins">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl md:text-2xl font-bold text-slate-700 dark:text-white mb-4">
+          <h1 className="text-2xl md:text-2xl font-bold text-slate-700 dark:text-white mb-2 md:mb-4">
             Your <span className="bg-gradient-to-r from-rose-600 dark:from-rose-400 to-fuchsia-600 dark:to-fuchsia-400 bg-clip-text text-transparent">Messages</span>
           </h1>
-          <p className="text-md text-slate-600 dark:text-slate-400">
+          <p className="text-xs md:text-md text-slate-600 dark:text-slate-400">
             Chat with your skill exchange partners
           </p>
         </motion.div>
@@ -217,13 +217,13 @@ const MessagesPage: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="text-center py-20"
           >
-            <div className="w-24 h-24 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-500/30">
-              <MessageSquare className="w-12 h-12 text-white" />
+            <div className="w-12 md:w-24 h-12 md:h-24 bg-gradient-to-r from-rose-500 to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 border border-blue-500/30">
+              <MessageSquare className="w-6 md:w-12 h-6 md:h-12 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className="md:text-2xl font-bold text-white mb-2 md:mb-4">
               {searchQuery ? 'No conversations found' : 'No conversations yet'}
             </h3>
-            <p className="text-slate-400 mb-8 max-w-md mx-auto">
+            <p className="text-slate-400 mb-8 max-w-md mx-auto text-sm md:text-md">
               {searchQuery 
                 ? `No conversations match "${searchQuery}". Try a different search term.`
                 : 'Start exchanging skills to begin conversations with other users. Messages will appear here once your requests are accepted.'

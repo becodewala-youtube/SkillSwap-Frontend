@@ -35,7 +35,11 @@ const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
+      toast.error(error,{
+  style: {
+    color: '#fff', // white text
+  },
+});
       dispatch(clearError());
     }
   }, [error, dispatch]);

@@ -80,12 +80,20 @@ const EditProfilePage: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('File size must be less than 5MB');
+        toast.error('File size must be less than 5MB',{
+  style: {
+    color: '#fff', // white text
+  },
+});
         return;
       }
 
       if (!file.type.startsWith('image/')) {
-        toast.error('Please select an image file');
+        toast.error('Please select an image file',{
+  style: {
+    color: '#fff', // white text
+  },
+});
         return;
       }
 
@@ -106,7 +114,7 @@ const EditProfilePage: React.FC = () => {
       const formData = new FormData();
       formData.append('avatar', avatarFile);
 
-      const response = await api.post('/vatar', formData, {
+      const response = await api.post('/upload/avatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -114,7 +122,11 @@ const EditProfilePage: React.FC = () => {
 
       return response.data.avatar;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to upload avatar');
+      toast.error(error.response?.data?.message || 'Failed to upload avatar',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       return null;
     } finally {
       setIsUploading(false);
@@ -169,7 +181,11 @@ const EditProfilePage: React.FC = () => {
 });
       navigate(`/profile/${user?._id}`);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile');
+      toast.error(error.message || 'Failed to update profile',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     }
   };
 
@@ -198,10 +214,10 @@ const EditProfilePage: React.FC = () => {
             Back
           </button>
           <div className="text-center">
-            <h1 className="text-4xl md:text-xl font-bold text-slate-700 dark:text-white mb-2">
+            <h1 className="text-2xl md:text-xl font-bold text-slate-700 dark:text-white mb-2">
               Edit <span className="bg-gradient-to-r from-rose-400 to-fuchsia-400 dark:from-rose-500 dark:to-fuchsia-500 bg-clip-text text-transparent">Profile</span>
             </h1>
-            <p className="text-md  text-slate-600 dark:text-slate-400">
+            <p className="text-xs md:text-md  text-slate-600 dark:text-slate-400">
               Update your profile information and preferences
             </p>
           </div>

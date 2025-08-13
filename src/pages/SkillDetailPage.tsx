@@ -132,7 +132,11 @@ const [showShareMenu, setShowShareMenu] = useState(false);
       setRequestMessage('');
       setHasExistingRequest(true);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to send request');
+      toast.error(error.message || 'Failed to send request',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     } finally {
       setIsSubmitting(false);
     }
@@ -150,7 +154,11 @@ const [showShareMenu, setShowShareMenu] = useState(false);
 });
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error.message || 'Failed to delete skill');
+      toast.error(error.message || 'Failed to delete skill',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     }
   };
 
@@ -169,7 +177,11 @@ const [showShareMenu, setShowShareMenu] = useState(false);
       // Refresh skill data
       dispatch(getSkillById(currentSkill._id));
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to endorse skill');
+      toast.error(error.response?.data?.message || 'Failed to endorse skill',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     }
   };
 

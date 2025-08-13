@@ -35,7 +35,11 @@ const LoginPage: React.FC = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
+      toast.error(error,{
+  style: {
+    color: '#fff', // white text
+  },
+});
       dispatch(clearError());
     }
   }, [error, dispatch]);
@@ -48,7 +52,11 @@ const LoginPage: React.FC = () => {
     const oauthError = urlParams.get('error');
 
     if (oauthError) {
-      toast.error('Google authentication failed');
+      toast.error('Google authentication failed',{
+  style: {
+    color: '#fff', // white text
+  },
+});
       return;
     }
 

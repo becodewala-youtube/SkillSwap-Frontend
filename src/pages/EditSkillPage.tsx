@@ -46,7 +46,11 @@ const EditSkillPage: React.FC = () => {
     if (currentSkill) {
       // Check if user owns this skill
       if (currentSkill.userId._id !== user?._id) {
-        toast.error('You can only edit your own skills');
+        toast.error('You can only edit your own skills',{
+  style: {
+    color: '#fff', // white text
+  },
+});
         navigate('/dashboard');
         return;
       }
@@ -168,7 +172,11 @@ const EditSkillPage: React.FC = () => {
 });
       navigate(`/skills/${skillId}`);
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update skill');
+      toast.error(error.message || 'Failed to update skill',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     } finally {
       setIsSubmitting(false);
     }

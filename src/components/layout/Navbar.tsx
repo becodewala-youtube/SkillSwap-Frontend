@@ -357,7 +357,7 @@ const Navbar: React.FC = () => {
                   <Link
                     to="/register"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3 text-base font-medium bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl transition-all duration-300 text-center"
+                    className="block px-4 py-3 text-base font-medium bg-gradient-to-r from-rose-500 to-rose-600 text-white rounded-xl transition-all duration-300 text-center"
                   >
                     Get Started
                   </Link>

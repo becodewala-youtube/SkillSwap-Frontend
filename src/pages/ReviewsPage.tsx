@@ -183,7 +183,11 @@ const ReviewsPage: React.FC = () => {
       // Refresh data
       fetchData();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to submit review');
+      toast.error(error.response?.data?.message || 'Failed to submit review',{
+  style: {
+    color: '#fff', // white text
+  },
+});
     } finally {
       setIsSubmitting(false);
     }
