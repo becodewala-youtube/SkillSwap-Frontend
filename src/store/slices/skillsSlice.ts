@@ -3,7 +3,6 @@ import api from '../../utils/api';
 
 interface Skill {
   user: any;
-  user: any;
   _id: string;
   title: string;
   description: string;

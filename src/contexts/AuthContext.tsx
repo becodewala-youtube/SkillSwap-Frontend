@@ -2,6 +2,9 @@ import React, { createContext, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store/store';
 import { getCurrentUser } from '../store/slices/authSlice';
+import { getUnreadCount } from '../store/slices/notificationsSlice';
+import { getUnreadCount as getMessageUnreadCount } from '../store/slices/messagesSlice';
+
 
 interface AuthContextType {
   user: any;
@@ -29,7 +32,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (token && !user && !isLoading) {
       dispatch(getCurrentUser());
     }
-  }, [dispatch, token, user, isLoading]);
+    
+    // Fetch unread counts when authenticated
+    if (isAuthenticated && user) {
+      dispatch(getUnreadCount());
+      dispatch(getMessageUnreadCount());
+    }
+  }, [dispatch, token, user, isLoading, isAuthenticated]);
 
   const value = {
     user,

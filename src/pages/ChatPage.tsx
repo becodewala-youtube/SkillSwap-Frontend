@@ -151,29 +151,35 @@ const ChatPage: React.FC = () => {
       });
     });
 
-       socket.on('call_answered', (data) => {
-      const { accepted } = data;
-      if (accepted) {
-        setCallStatus('connected');
-        initializeWebRTC(true); // Caller creates offer
-      } else {
-        endCall();
-        toast.error('Call was declined',{
+   // Fix the call_answered event handler:
+socket.on('call_answered', (data) => {
+  const { accepted, callId } = data;
+  if (accepted && callId === currentCallId) {
+    setCallStatus('connected');
+    initializeWebRTC(true); // Caller creates offer
+  } else {
+    cleanupCall();
+    toast.error('Call was declined',{
   style: {
     color: '#fff', // white text
   },
 });
-      }
-    });
+  }
+});
 
-      socket.on('call_ended', () => {
-        endCall();
-        toast.success('Call ended',{
+// Fix the call_ended event handler:
+socket.on('call_ended', (data) => {
+  const { callId } = data;
+  if (callId === currentCallId || !callId) {
+    cleanupCall();
+    toast.success('Call ended',{
   style: {
     color: '#fff', // white text
   },
 });
-      });
+  }
+});
+
 
      // Update the socket event listeners section:
 // Update the socket event listeners in useEffect:
@@ -448,20 +454,23 @@ const handleWebRTCOffer = async (offer: RTCSessionDescriptionInit) => {
 };
 
 
+const startCall = (type: 'audio' | 'video') => {
+  if (!socket || !otherUser) return;
 
-  const startCall = (type: 'audio' | 'video') => {
-    if (!socket || !otherUser) return;
+  const callId = `${user?._id}_${otherUser._id}_${Date.now()}`;
+  setCurrentCallId(callId);
+  setCallType(type);
+  setCallStatus('calling');
+  setIsInCall(true);
 
-    setCallType(type);
-    setCallStatus('calling');
-    setIsInCall(true);
+  socket.emit('call_user', {
+    targetUserId: otherUser._id,
+    callType: type,
+    requestId,
+    callId // Include callId in the emission
+  });
+};
 
-    socket.emit('call_user', {
-      targetUserId: otherUser._id,
-      callType: type,
-      requestId
-    });
-  };
 
 const answerCall = async (callId: string) => {
   if (!socket) return;
@@ -921,7 +930,7 @@ const answerCall = async (callId: string) => {
                   <>
                     <Button
                       onClick={() => answerCall(currentCallId!)}
-                      className="bg-green-500 hover:bg-green-600 px-8 py-3"
+                      className="!bg-green-500 hover:bg-green-600 px-8 py-3"
                     >
                       <PhoneCall className="w-5 h-5 mr-2" />
                       Answer

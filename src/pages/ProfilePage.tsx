@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
 import { 
@@ -73,11 +73,12 @@ const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const { user: currentUser } = useSelector((state: RootState) => state.auth);
-  
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'skills' | 'reviews'>('skills');
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const isOwnProfile = currentUser?._id === userId;
 
@@ -103,6 +104,110 @@ const ProfilePage: React.FC = () => {
 
     fetchProfile();
   }, [userId]);
+
+
+  const handleMessage = async () => {
+  if (!profile || !currentUser) return;
+  
+  try {
+    // Check if there's an existing conversation
+    const response = await api.get('/messages/conversations');
+    const conversations = response.data.conversations;
+    
+    const existingConversation = conversations.find((conv: any) => 
+      conv.otherUser._id === profile._id
+    );
+    
+    if (existingConversation) {
+      navigate(`/chat/${existingConversation.request._id}`);
+    } else {
+      toast.error('No active skill exchange found. Send a skill request first!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+    }
+  } catch (error: any) {
+    toast.error('Failed to start conversation',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+  }
+};
+
+const handleFollow = async () => {
+  if (!profile || !currentUser) return;
+  
+  try {
+    if (isFollowing) {
+      await api.delete(`/users/${profile._id}/follow`);
+      setIsFollowing(false);
+      toast.success('Unfollowed successfully',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+    } else {
+      await api.post(`/users/${profile._id}/follow`);
+      setIsFollowing(true);
+      toast.success('Following successfully',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+    }
+  } catch (error: any) {
+    toast.error(error.response?.data?.message || 'Failed to update follow status',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+  }
+};
+
+const handleShare = async () => {
+  const shareData = {
+    title: `${profile?.name} - SkillSwap Profile`,
+    text: `Check out ${profile?.name}'s amazing skills on SkillSwap!`,
+    url: window.location.href,
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (error) {
+      fallbackShare();
+    }
+  } else {
+    fallbackShare();
+  }
+};
+
+const fallbackShare = () => {
+  const url = window.location.href;
+  const text = `Check out ${profile?.name}'s amazing skills on SkillSwap!`;
+  
+  navigator.clipboard.writeText(`${text}\n${url}`).then(() => {
+    toast.success('Profile link copied to clipboard!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+  }).catch(() => {
+    const textArea = document.createElement('textarea');
+    textArea.value = `${text}\n${url}`;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    toast.success('Profile link copied to clipboard!',{
+  style: {
+    color: '#fff', // white text
+  },
+});
+  });
+};
 
   if (isLoading) {
     return (
@@ -229,36 +334,43 @@ const ProfilePage: React.FC = () => {
 
   {/* Action Buttons */}
   <div className="flex flex-col gap-3 w-full lg:w-auto mt-4 lg:mt-0">
-    {isOwnProfile ? (
-      <Link to="/profile/edit" className="w-full">
-        <Button className="w-full hover:scale-105 transition-transform">
-          <Edit className="w-4 h-4 mr-2" />
-          Edit
-        </Button>
-      </Link>
-    ) : (
-      <>
-        <Button className="w-full sm:w-auto lg:w-full hover:scale-105 transition-transform">
-          <MessageSquare className="w-4 h-4 mr-2" />
-          Message
-        </Button>
-        <div className="flex gap-2 w-full sm:w-auto lg:w-full">
-          <Button
-            variant="outline"
-            className="flex-1 hover:scale-105 transition-transform"
-          >
-            <Heart className="w-4 h-4 mr-2" />
-            Follow
-          </Button>
-          <Button
-            variant="outline"
-            className="hover:scale-105 transition-transform"
-          >
-            <Share2 className="w-4 h-4" />
-          </Button>
-        </div>
-      </>
-    )}
+    
+{isOwnProfile ? (
+  <Link to="/profile/edit" className="w-full">
+    <Button className="w-full hover:scale-105 transition-transform">
+      <Edit className="w-4 h-4 mr-2" />
+      Edit
+    </Button>
+  </Link>
+) : (
+  <>
+    <Button 
+      onClick={handleMessage}
+      className="w-full sm:w-auto lg:w-full hover:scale-105 transition-transform"
+    >
+      <MessageSquare className="w-4 h-4 mr-2" />
+      Message
+    </Button>
+    <div className="flex gap-2 w-full sm:w-auto lg:w-full">
+      <Button
+        variant="outline"
+        onClick={handleFollow}
+        className="flex-1 hover:scale-105 transition-transform"
+      >
+        <Heart className={`w-4 h-4 mr-2 ${isFollowing ? 'fill-current text-red-500' : ''}`} />
+        {isFollowing ? 'Following' : 'Follow'}
+      </Button>
+      <Button
+        variant="outline"
+        onClick={handleShare}
+        className="hover:scale-105 transition-transform"
+      >
+        <Share2 className="w-4 h-4" />
+      </Button>
+    </div>
+  </>
+)}
+
   </div>
 </div>
 
