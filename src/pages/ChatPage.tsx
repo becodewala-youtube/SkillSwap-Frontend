@@ -70,10 +70,13 @@ const ChatPage: React.FC = () => {
   const [currentCallId, setCurrentCallId] = useState<string | null>(null);
   
   // WebRTC refs
-  const localVideoRef = useRef<HTMLVideoElement>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
-  const localStreamRef = useRef<MediaStream | null>(null);
+  // WebRTC refs
+const localVideoRef = useRef<HTMLVideoElement | null>(null);
+const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
+const remoteAudioRef = useRef<HTMLAudioElement | null>(null); // <-- new
+const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
+const localStreamRef = useRef<MediaStream | null>(null);
+
   
   // File upload states
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -85,6 +88,8 @@ const ChatPage: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+
+  
 
   const otherUser = currentRequest?.senderId._id === user?._id 
     ? currentRequest?.receiverId 
@@ -361,15 +366,42 @@ const initializeWebRTC = async (isInitiator: boolean) => {
     });
 
     // Handle remote stream
-    peerConnection.ontrack = (event) => {
-      console.log('Received remote track:', event.track.kind);
-      console.log('Remote streams:', event.streams);
-      
-      if (remoteVideoRef.current && event.streams[0]) {
-        remoteVideoRef.current.srcObject = event.streams[0];
-        console.log('Set remote video source');
-      }
-    };
+   // Handle remote stream
+peerConnection.ontrack = (event) => {
+  console.log('Received remote track:', event.track.kind);
+  // event.streams[0] is the MediaStream for this track (most browsers)
+  const remoteStream = event.streams && event.streams[0];
+
+  if (!remoteStream) {
+    console.warn('No remote stream found on ontrack event');
+    return;
+  }
+
+  // If it's video and there's a video element, set it
+  if (event.track.kind === 'video') {
+    if (remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = remoteStream;
+      console.log('Set remote video source');
+    }
+  }
+
+  // If it's audio, attach to audio element and attempt to play
+  if (event.track.kind === 'audio') {
+    if (remoteAudioRef.current) {
+      remoteAudioRef.current.srcObject = remoteStream;
+      // try to play (user gesture should have happened when call started/answered)
+      remoteAudioRef.current.play().catch((err) => {
+        console.warn('Auto-play of remote audio failed:', err);
+      });
+      console.log('Set remote audio source');
+    } else if (remoteVideoRef.current) {
+      // fallback: attach to remote video element (if you want)
+      remoteVideoRef.current.srcObject = remoteStream;
+      console.log('Attached audio stream to video element as fallback');
+    }
+  }
+};
+
 
     // Handle ICE candidates
     peerConnection.onicecandidate = (event) => {
@@ -526,12 +558,17 @@ const answerCall = async (callId: string) => {
     }
 
     // Clear video elements
-    if (localVideoRef.current) {
-      localVideoRef.current.srcObject = null;
-    }
-    if (remoteVideoRef.current) {
-      remoteVideoRef.current.srcObject = null;
-    }
+   // Clear audio/video elements
+if (localVideoRef.current) {
+  localVideoRef.current.srcObject = null;
+}
+if (remoteVideoRef.current) {
+  remoteVideoRef.current.srcObject = null;
+}
+if (remoteAudioRef.current) {
+  remoteAudioRef.current.srcObject = null;
+}
+
   };
 
   const toggleMute = () => {
@@ -923,7 +960,9 @@ const answerCall = async (callId: string) => {
                   </div>
                 </div>
               )}
-
+{callType === 'audio' && (
+      <audio ref={remoteAudioRef} autoPlay style={{ display: 'none' }} />
+    )}
               {/* Call controls */}
               <div className="flex justify-center space-x-4">
                 {callStatus === 'ringing' ? (
