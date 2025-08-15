@@ -67,12 +67,7 @@ SkillSwap enables users to:
 
 
 
-## 🖼 Screenshots
-| Home Page | Dashboard | Messaging |
-|-----------|-----------|-----------|
-| ![Home](<img width="1343" height="955" alt="image" src="https://github.com/user-attachments/assets/133cfff3-4be0-4e9a-ba92-aeaeb88b1708" />) | 
-![Dashboard](<img width="1279" height="953" alt="Screenshot 2025-08-15 210804" src="https://github.com/user-attachments/assets/047f31c3-f4a6-45e4-aa3b-a07d9b88d552" />) | 
-![Chat](<img width="1905" height="953" alt="image" src="https://github.com/user-attachments/assets/a1556bc3-cbeb-49ce-b174-a0f68ae89f38" />) |
+
 
 
 
