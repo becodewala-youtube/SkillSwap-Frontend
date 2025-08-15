@@ -4,8 +4,7 @@
 ![React](https://img.shields.io/badge/Frontend-React.js-61DAFB?style=flat-square&logo=react) 
 ![Node](https://img.shields.io/badge/Backend-Node.js-339933?style=flat-square&logo=node.js) 
 
-
-> **SkillSwap** is a modern, responsive, and user-friendly platform where individuals can **share and learn skills** from each other. Built with the **MERN stack**, it connects users for skill exchanges through real-time chat, skill listings, and a rich set of collaboration features — including **voice/video calls** and **dark mode**.
+**SkillSwap** is a modern, responsive, and user-friendly platform where individuals can **share and learn skills** from each other. Built with the **MERN stack**, it connects users for skill exchanges through real-time chat, skill listings, and a rich set of collaboration features — including **voice/video calls** and **dark mode**.
 
 
 
