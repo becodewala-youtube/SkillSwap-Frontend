@@ -243,7 +243,7 @@ const LoginPage: React.FC = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800 py-2 line-through"
+                className="w-full border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800 py-2 "
                 onClick={handleGoogleLogin}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
