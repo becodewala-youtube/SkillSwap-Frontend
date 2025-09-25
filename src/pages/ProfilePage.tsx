@@ -22,7 +22,8 @@ import {
   Share2,
   MoreHorizontal,
   Badge,
-  Clock
+  Clock,
+  LogIn
 } from 'lucide-react';
 import { RootState, AppDispatch } from '../store/store';
 import Button from '../components/ui/Button';
@@ -72,7 +73,7 @@ interface Review {
 const ProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const dispatch = useDispatch<AppDispatch>();
-  const { user: currentUser } = useSelector((state: RootState) => state.auth);
+  const { user: currentUser, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -81,6 +82,7 @@ const ProfilePage: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState(false);
 
   const isOwnProfile = currentUser?._id === userId;
+  const isLoggedIn = isAuthenticated && currentUser;
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -105,109 +107,116 @@ const ProfilePage: React.FC = () => {
     fetchProfile();
   }, [userId]);
 
-
   const handleMessage = async () => {
-  if (!profile || !currentUser) return;
-  
-  try {
-    // Check if there's an existing conversation
-    const response = await api.get('/messages/conversations');
-    const conversations = response.data.conversations;
+    if (!profile || !currentUser) return;
     
-    const existingConversation = conversations.find((conv: any) => 
-      conv.otherUser._id === profile._id
-    );
-    
-    if (existingConversation) {
-      navigate(`/chat/${existingConversation.request._id}`);
-    } else {
-      toast.error('No active skill exchange found. Send a skill request first!',{
-  style: {
-    color: '#fff', // white text
-  },
-});
+    try {
+      // Check if there's an existing conversation
+      const response = await api.get('/messages/conversations');
+      const conversations = response.data.conversations;
+      
+      const existingConversation = conversations.find((conv: any) => 
+        conv.otherUser._id === profile._id
+      );
+      
+      if (existingConversation) {
+        navigate(`/chat/${existingConversation.request._id}`);
+      } else {
+        toast.error('No active skill exchange found. Send a skill request first!',{
+    style: {
+      color: '#fff', // white text
+    },
+  });
+      }
+    } catch (error: any) {
+      toast.error('Failed to start conversation',{
+    style: {
+      color: '#fff', // white text
+    },
+  });
     }
-  } catch (error: any) {
-    toast.error('Failed to start conversation',{
-  style: {
-    color: '#fff', // white text
-  },
-});
-  }
-};
-
-const handleFollow = async () => {
-  if (!profile || !currentUser) return;
-  
-  try {
-    if (isFollowing) {
-      await api.delete(`/users/${profile._id}/follow`);
-      setIsFollowing(false);
-      toast.success('Unfollowed successfully',{
-  style: {
-    color: '#fff', // white text
-  },
-});
-    } else {
-      await api.post(`/users/${profile._id}/follow`);
-      setIsFollowing(true);
-      toast.success('Following successfully',{
-  style: {
-    color: '#fff', // white text
-  },
-});
-    }
-  } catch (error: any) {
-    toast.error(error.response?.data?.message || 'Failed to update follow status',{
-  style: {
-    color: '#fff', // white text
-  },
-});
-  }
-};
-
-const handleShare = async () => {
-  const shareData = {
-    title: `${profile?.name} - SkillSwap Profile`,
-    text: `Check out ${profile?.name}'s amazing skills on SkillSwap!`,
-    url: window.location.href,
   };
 
-  if (navigator.share) {
+  const handleLoginToMessage = () => {
+    navigate('/login', { state: { from: { pathname: `/profile/${userId}` } } });
+  };
+
+  const handleFollow = async () => {
+    if (!profile || !currentUser) return;
+    
     try {
-      await navigator.share(shareData);
-    } catch (error) {
+      if (isFollowing) {
+        await api.delete(`/users/${profile._id}/follow`);
+        setIsFollowing(false);
+        toast.success('Unfollowed successfully',{
+    style: {
+      color: '#fff', // white text
+    },
+  });
+      } else {
+        await api.post(`/users/${profile._id}/follow`);
+        setIsFollowing(true);
+        toast.success('Following successfully',{
+    style: {
+      color: '#fff', // white text
+    },
+  });
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to update follow status',{
+    style: {
+      color: '#fff', // white text
+    },
+  });
+    }
+  };
+
+  const handleLoginToFollow = () => {
+    navigate('/login', { state: { from: { pathname: `/profile/${userId}` } } });
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `${profile?.name} - SkillSwap Profile`,
+      text: `Check out ${profile?.name}'s amazing skills on SkillSwap!`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        fallbackShare();
+      }
+    } else {
       fallbackShare();
     }
-  } else {
-    fallbackShare();
-  }
-};
+  };
 
-const fallbackShare = () => {
-  const url = window.location.href;
-  const text = `Check out ${profile?.name}'s amazing skills on SkillSwap!`;
-  
-  navigator.clipboard.writeText(`${text}\n${url}`).then(() => {
-    toast.success('Profile link copied to clipboard!',{
-  style: {
-    color: '#fff', // white text
-  },
-});
-  }).catch(() => {
-    const textArea = document.createElement('textarea');
-    textArea.value = `${text}\n${url}`;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-    toast.success('Profile link copied to clipboard!',{
-  style: {
-    color: '#fff', // white text
-  },
-});
+  const fallbackShare = () => {
+    const url = window.location.href;
+    const text = `Check out ${profile?.name}'s amazing skills on SkillSwap!`;
+    
+    navigator.clipboard.writeText(`${text}\n${url}`).then(() => {
+      toast.success('Profile link copied to clipboard!',{
+    style: {
+      color: '#fff', // white text
+    },
   });
-};
+    }).catch(() => {
+      const textArea = document.createElement('textarea');
+      textArea.value = `${text}\n${url}`;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      toast.success('Profile link copied to clipboard!',{
+    style: {
+      color: '#fff', // white text
+    },
+  });
+    });
+  };
 
   if (isLoading) {
     return (
@@ -257,7 +266,7 @@ const fallbackShare = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
         <motion.div
@@ -344,22 +353,48 @@ const fallbackShare = () => {
   </Link>
 ) : (
   <>
-    <Button 
-      onClick={handleMessage}
-      className="w-full sm:w-auto lg:w-full hover:scale-105 transition-transform"
-    >
-      <MessageSquare className="w-4 h-4 mr-2" />
-      Message
-    </Button>
-    <div className="flex gap-2 w-full sm:w-auto lg:w-full">
-      <Button
-        variant="outline"
-        onClick={handleFollow}
-        className="flex-1 hover:scale-105 transition-transform"
+    {/* Message Button - Show different states based on login */}
+    {isLoggedIn ? (
+      <Button 
+        onClick={handleMessage}
+        className="w-full sm:w-auto lg:w-full hover:scale-105 transition-transform"
       >
-        <Heart className={`w-4 h-4 mr-2 ${isFollowing ? 'fill-current text-red-500' : ''}`} />
-        {isFollowing ? 'Following' : 'Follow'}
+        <MessageSquare className="w-4 h-4 mr-2" />
+        Message
       </Button>
+    ) : (
+      <Button 
+        onClick={handleLoginToMessage}
+        className="w-full sm:w-auto lg:w-full hover:scale-105 transition-transform"
+      >
+        <LogIn className="w-4 h-4 mr-2" />
+        Login to msg
+      </Button>
+    )}
+    
+    <div className="flex gap-2 w-full sm:w-auto lg:w-full">
+      {/* Follow Button - Show different states based on login */}
+      {isLoggedIn ? (
+        <Button
+          variant="outline"
+          onClick={handleFollow}
+          className="flex-1 hover:scale-105 transition-transform"
+        >
+          <Heart className={`w-4 h-4 mr-2 ${isFollowing ? 'fill-current text-red-500' : ''}`} />
+          {isFollowing ? 'Following' : 'Follow'}
+        </Button>
+      ) : (
+        <Button
+          variant="outline"
+          onClick={handleLoginToFollow}
+          className="flex-1 hover:scale-105 transition-transform"
+        >
+          <Heart className="w-4 h-4 mr-2" />
+          Follow
+        </Button>
+      )}
+      
+      {/* Share Button - Always available */}
       <Button
         variant="outline"
         onClick={handleShare}
@@ -373,7 +408,6 @@ const fallbackShare = () => {
 
   </div>
 </div>
-
 
         </motion.div>
 

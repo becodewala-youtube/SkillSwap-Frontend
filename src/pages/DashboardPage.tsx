@@ -186,7 +186,7 @@ const openDeleteModal = (skill: any) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 md:py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 md:py-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -195,17 +195,17 @@ const openDeleteModal = (skill: any) => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2 md:mb-4">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 ">
               Welcome back, <span className="text-gradient">{user?.name}!</span>
             </h1>
-            <p className="text-md text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Here's what's happening with your skill exchanges
             </p>
           </motion.div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.title}
@@ -244,9 +244,9 @@ const openDeleteModal = (skill: any) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="card p-5"
+              className="card px-4 py-3"
             >
-              <div className="flex items-center mb-6">
+              <div className="flex items-center mb-4">
                 <Zap className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-3" />
                 <h2 className="text-md font-bold text-gray-900 dark:text-white">
                   Quick Actions
@@ -339,9 +339,9 @@ const openDeleteModal = (skill: any) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="card p-8"
+              className="card p-4 sm:p-"
             >
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                   <BookOpen className="w-4 h-4 text-rose-600 dark:text-rose-400 mr-3" />
                   <h2 className="text-md font-bold text-gray-900 dark:text-white">
